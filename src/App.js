@@ -1,11 +1,19 @@
 import { Routes, Route } from 'react-router-dom';
 import { Home } from './routes/home/home.component';
+import { Navigation } from './routes/navigation/navigation.component';
+
+const Shop = () => {
+  return <h1>I am the shop component</h1>;
+};
 
 const App = () => {
   return (
     <Routes>
-      {/*when path matches this url, render this element*/}
-      <Route path='/' element={<Home />} />
+      <Route path="/" element={<Navigation />}>
+        {/*when path matches this url, render this element*/}
+        <Route index element={<Home />} />
+        <Route path="shop" element={<Shop />} />
+      </Route>
     </Routes>
   );
 };
