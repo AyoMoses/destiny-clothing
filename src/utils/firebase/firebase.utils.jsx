@@ -6,6 +6,7 @@ import {
   signInWithRedirect,
   signInWithPopup,
   GoogleAuthProvider,
+  createUserWithEmailAndPassword,
 } from 'firebase/auth';
 
 // we get firestore and the access to get doc from the document instance, then getDoc and setDoc do not mean what the method names are but getting and setting data from/to firestore. You get Doc with `doc` and set and get data on the doc with getDoc and setDoc. `doc` is a function that takes 3 arguements
@@ -25,25 +26,34 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 
 // initialize a provider variable that gives an instance of the AuthProvider
-// you can have multiple different types of provider doing different things i.e sign in
-const provider = new GoogleAuthProvider();
+// you can have multiple different types of provider doing different things i.e sign in with facebook, github, twitter etc. These are all providers
+const googleProvider = new GoogleAuthProvider();
 
 // set custom parameter on provider. Takes custom objects
 // we tell how we want the google auth provider to behave
 // prompt: "select_account" anytime user interacts with provider, they are forced to select an account
-provider.setCustomParameters({
+googleProvider.setCustomParameters({
   prompt: 'select_account',
 });
 
 // you only need one auth for an app cycle whereas multiple providers
 export const auth = getAuth();
-export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
+export const signInWithGooglePopup = () =>
+  signInWithPopup(auth, googleProvider);
+export const signInWithGoogleRedirect = () =>
+  signInWithRedirect(auth, googleProvider);
 
 // we instantiate firestore and use it to access our DB. This simple instance allows us to tell firestore when we want to set or get data to/from our db
 export const db = getFirestore();
 
 // an async function that takes our authenticated user and sends it to be stored on firestore
-export const createUserDocomentFromAuth = async (userAuth) => {
+export const createUserDocumentFromAuth = async (
+  userAuth,
+  additionalInformation = {}
+) => {
+  // by protecting our code. If we get nothing, don't run the function. "Guard clause"
+  if (!userAuth) return;
+
   // doc takes 3 arguements.
   // 1. is our database from firestore
   // 2. is our collection
@@ -63,6 +73,7 @@ export const createUserDocomentFromAuth = async (userAuth) => {
         displayName,
         email,
         createdAt,
+        ...additionalInformation,
       });
     } catch (err) {
       console.log(err.message, 'There was an error creating the user');
@@ -74,4 +85,15 @@ export const createUserDocomentFromAuth = async (userAuth) => {
   return userDocRef;
 
   // if it does exist, return user doc ref
+};
+
+// we are focusing on how to defend our code from security breaches
+// I create an authenticated user inside of our firebase authentication
+export const createAuthUserWithEmailAndPassword = async (email, password) => {
+  // if there are not email or password, exit immediately
+  if (!email || !password) return;
+
+  // i return the awaited value from this firebase method
+  // bcos when this await authenticates, we want to see the returned value
+  return await createUserWithEmailAndPassword(auth, email, password);
 };
