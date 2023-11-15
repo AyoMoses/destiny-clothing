@@ -5,6 +5,7 @@ import {
   getAuth,
   signInWithRedirect,
   signInWithPopup,
+  signInWithEmailAndPassword,
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
 } from 'firebase/auth';
@@ -96,4 +97,10 @@ export const createAuthUserWithEmailAndPassword = async (email, password) => {
   // i return the awaited value from this firebase method
   // bcos when this await authenticates, we want to see the returned value
   return await createUserWithEmailAndPassword(auth, email, password);
+};
+
+export const signInAuthUserWithEmailAndPassword = async (email, password) => {
+  if (!email || !password) return;
+
+  return await signInWithEmailAndPassword(auth, email, password);
 };
