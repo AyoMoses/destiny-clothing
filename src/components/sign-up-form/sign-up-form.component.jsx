@@ -1,13 +1,14 @@
-import React from 'react';
-import './sign-up-form.styles.scss';
+import React, { useContext } from 'react';
 import {
   createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
 } from '../../utils/firebase/firebase.utils';
+import { UserContext } from '../../contexts/user.context';
 
 import { FormInput } from '../form-input/form-input.component';
-
 import { Button } from '../button/button.component';
+
+import './sign-up-form.styles.scss';
 
 // setting up our form object structure with a default value
 const defaultFormFields = {
@@ -20,6 +21,8 @@ const defaultFormFields = {
 export const SignUpForm = () => {
   const [formFields, setFormFields] = React.useState(defaultFormFields);
   const { displayName, email, password, confirmPassword } = formFields;
+
+  const { setCurrentUser } = useContext(UserContext);
 
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
@@ -42,6 +45,8 @@ export const SignUpForm = () => {
         email,
         password
       );
+      setCurrentUser(user);
+      console.log(user);
       await createUserDocumentFromAuth(user, { displayName });
       // I append this to the end of successful user creation to reset the form field
       resetFormFields();

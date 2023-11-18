@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import './sign-in-form.styles.scss';
 
@@ -12,6 +12,8 @@ import { FormInput } from '../form-input/form-input.component';
 
 import { Button } from '../button/button.component';
 
+import { UserContext } from '../../contexts/user.context';
+
 // setting up our form object structure with a default value
 const defaultFormFields = {
   email: '',
@@ -22,6 +24,9 @@ export const SignInForm = () => {
   const [formFields, setFormFields] = React.useState(defaultFormFields);
   const { email, password } = formFields;
 
+  // for sign in we just want to set the current user as the context
+  const { setCurrentUser } = useContext(UserContext);
+
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
   };
@@ -30,11 +35,15 @@ export const SignInForm = () => {
     event.preventDefault();
 
     try {
-      const response = await signInAuthUserWithEmailAndPassword(
+      // whenever a user signs, we want to take this user object and we store it inside the context
+      const { user } = await signInAuthUserWithEmailAndPassword(
         email,
         password
       );
-      console.log(response);
+
+      // we set the value whenever the current user value comes back from firebase
+      setCurrentUser(user);
+
       resetFormFields();
     } catch (error) {
       switch (error.code) {
@@ -44,8 +53,6 @@ export const SignInForm = () => {
         case 'auth/user-not-found':
           alert('no user associated with this email');
           break;
-        case 'auth/invalid-login-credentials':
-          alert('email or password incorrect');
         default:
           console.log(error);
       }

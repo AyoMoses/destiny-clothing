@@ -6,6 +6,7 @@ import {
   signInWithRedirect,
   signInWithPopup,
   signInWithEmailAndPassword,
+  signOut,
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
 } from 'firebase/auth';
@@ -83,15 +84,14 @@ export const createUserDocumentFromAuth = async (
 
   // check if user data exists
 
-  return userDocRef;
-
   // if it does exist, return user doc ref
+  return userDocRef;
 };
 
 // we are focusing on how to defend our code from security breaches
 // I create an authenticated user inside of our firebase authentication
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
-  // if there are not email or password, exit immediately
+  // if there are no email or password, exit immediately
   if (!email || !password) return;
 
   // i return the awaited value from this firebase method
@@ -104,3 +104,7 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
 
   return await signInWithEmailAndPassword(auth, email, password);
 };
+
+// the signOut() takes auth as its param then signs out the current user since firebase is keeping track
+// we make this an async function to await the promise of whatever signout returns to us
+export const signOutUser = async () => await signOut(auth);
