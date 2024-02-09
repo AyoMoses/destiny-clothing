@@ -9,6 +9,7 @@ import {
   signOut,
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
+  onAuthStateChanged,
 } from 'firebase/auth';
 
 // we get firestore and the access to get doc from the document instance, then getDoc and setDoc do not mean what the method names are but getting and setting data from/to firestore. You get Doc with `doc` and set and get data on the doc with getDoc and setDoc. `doc` is a function that takes 3 arguements
@@ -108,3 +109,10 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
 // the signOut() takes auth as its param then signs out the current user since firebase is keeping track
 // we make this an async function to await the promise of whatever signout returns to us
 export const signOutUser = async () => await signOut(auth);
+
+// this method takes two params. 1. auth 2. callback to be called each time authState changes
+// onAuthStateChanged observes for when user signs in and out. Auth changes and runs a callback
+// is an open listener which means its waiting to know whether auth states are changing
+// NOTE: You always have to tell the component using it to stop observing when it unmounts else it causes a memory leak
+export const onAuthStateChangedListener = (callback) =>
+  onAuthStateChanged(auth, callback);

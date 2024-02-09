@@ -42,7 +42,7 @@ export const SignInForm = () => {
       );
 
       // we set the value whenever the current user value comes back from firebase
-      setCurrentUser(user);
+      // setCurrentUser(user);
 
       resetFormFields();
     } catch (error) {

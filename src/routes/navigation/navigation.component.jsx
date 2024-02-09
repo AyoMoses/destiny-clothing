@@ -10,7 +10,7 @@ import './navigation.styles.scss';
 
 export const Navigation = () => {
   const { currentUser, setCurrentUser } = useContext(UserContext);
-  console.log(currentUser);
+  // console.log(currentUser);
 
   const signOutHandler = async () => {
     // this should return undefined to show it works
