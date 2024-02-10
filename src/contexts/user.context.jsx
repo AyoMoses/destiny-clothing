@@ -1,6 +1,9 @@
 import { createContext, useState, useEffect } from 'react';
 
-import { onAuthStateChangedListener } from '../utils/firebase/firebase.utils';
+import {
+  createUserDocumentFromAuth,
+  onAuthStateChangedListener,
+} from '../utils/firebase/firebase.utils';
 
 // as the actual value you want to access
 export const UserContext = createContext({
@@ -17,11 +20,15 @@ export const UserProvider = ({ children }) => {
   const value = { currentUser, setCurrentUser };
 
   useEffect(() => {
-
-    // once component getMouseEventOptions, check for the user state if signed in or out 
+    // once component getMouseEventOptions, check for the user state if signed in or out
 
     const unsubscribe = onAuthStateChangedListener((user) => {
-      console.log(user);
+      if (user) {
+        createUserDocumentFromAuth(user);
+      }
+
+      // if the user signs out, we want to store null. If the user signs in, we want to store the object
+      setCurrentUser(user);
     });
 
     return unsubscribe;

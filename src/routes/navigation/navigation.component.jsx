@@ -9,16 +9,10 @@ import { ReactComponent as LogoIcon } from '../../assets/crown.svg';
 import './navigation.styles.scss';
 
 export const Navigation = () => {
-  const { currentUser, setCurrentUser } = useContext(UserContext);
-  // console.log(currentUser);
+  const { currentUser } = useContext(UserContext);
 
-  const signOutHandler = async () => {
-    // this should return undefined to show it works
-    // console.log(res); by adding it as a declaration of res to the await we get from signOut
-    await signOutUser();
-
-    // I proceed to set my current user to null in the context to let context know we are signed out from firebase
-    setCurrentUser(null);
+  const handleSignOut = () => {
+    signOutUser();
   };
 
   return (
@@ -33,7 +27,7 @@ export const Navigation = () => {
           </Link>
 
           {currentUser ? (
-            <span className="nav-link" onClick={signOutHandler}>
+            <span className="nav-link" onClick={handleSignOut}>
               sign out
             </span>
           ) : (
