@@ -5,6 +5,7 @@ export const CartItem = ({ cartItem }) => {
   return (
     <div>
       <h2>{name}</h2>
+      <p>{quantity}</p>
     </div>
   );
 };

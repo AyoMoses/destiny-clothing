@@ -1,17 +1,22 @@
 import { createContext, useState } from 'react';
 
 // create a helper function that adds an item to cart using the id of the product. If the id exists, it increments the current one. If not, it adds a new item
-
 const addCartItem = (cartItems, productToAdd) => {
   // find if cart items contains product to add
+  const existingCartItem = cartItems.find(
+    (cartItem) => cartItem.id === productToAdd.id
+  );
   // if found, increment quantity
-  // return new array with modified new items/new cart items
-  if (cartItems === productToAdd) {
-    cartItems = cartItems + 1;
-    cartItems+=1;
-  } else {
-
+  if (existingCartItem) {
+    return cartItems.map((cartItem) =>
+      cartItem.id === productToAdd.id
+        ? { ...cartItem, quantity: cartItem.quantity + 1 }
+        : cartItem
+    );
   }
+
+  // return new array with modified new items/new cart items
+  return [...cartItems, { ...productToAdd, quantity: 1 }];
 };
 
 export const CartContext = createContext({
@@ -29,7 +34,7 @@ export const CartProvider = ({ children }) => {
     setCartItems(addCartItem(cartItems, productToAdd));
   };
 
-  const value = { isCartOpen, setIsCartOpen };
+  const value = { isCartOpen, setIsCartOpen, addItemToCart, cartItems };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };
