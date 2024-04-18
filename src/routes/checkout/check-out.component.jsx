@@ -1,61 +1,35 @@
 import { React, useContext } from 'react';
 import { CartContext } from '../../contexts/cart.context';
 import './checkout.styles.scss';
+import { CheckoutItem } from '../../components/checkout-item/checkout-item.component';
 
 export const Checkout = () => {
-  const { cartItems, totalPrice, addItemToCart, removeItemToCart } =
-    useContext(CartContext);
-
-  // const handleIncrement = (itemId) => {
-  //   incrementItemQuantity(itemId);
-  // };
-
-  // const handleDecrement = (itemId) => {
-  //   decrementItemQuantity(itemId);
-  // };
-
-  // const handleRemoveItem = (cartItem) => {
-  //   removeCartItem(productId);
-  // };
+  const { cartItems, cartTotal } = useContext(CartContext);
 
   return (
-    <div>
-      <div>
-        {cartItems.map((cartItem) => {
-          const { id, imageUrl, name, quantity, price } = cartItem;
-          return (
-            <div key={id}>
-              <img src={imageUrl} alt={name} />
-              <p>{name}</p>
-
-              <div>
-                <button
-                  type="button"
-                  onClick={() => removeItemToCart(cartItem)}
-                >
-                  decrement
-                </button>
-
-                <p>Quantity: {quantity}</p>
-
-                <button type="button" onClick={() => addItemToCart(cartItem)}>
-                  increment
-                </button>
-              </div>
-
-              <p>Item Price: ${quantity * price}</p>
-
-              {/* 
-                <button type="button" onClick={() => handleRemoveItem(id)}>
-                remove {`${quantity > 1 ? 'items' : 'item'}`}
-                </button>
-              */}
-            </div>
-          );
-        })}
-
-        <p>Total price: ${totalPrice}</p>
+    <div className="checkout-container">
+      <div className="checkout-header">
+        <div className="header-block">
+          <span>Product</span>
+        </div>
+        <div className="header-block">
+          <span>Description</span>
+        </div>
+        <div className="header-block">
+          <span>Quantity</span>
+        </div>
+        <div className="header-block">
+          <span>Price</span>
+        </div>
+        <div className="header-block">
+          <span>Remove</span>
+        </div>
       </div>
+      {cartItems.map((cartItem) => (
+        <CheckoutItem key={cartItem.id} cartItem={cartItem} />
+      ))}
+
+      <p className="total">Total: ${cartTotal}</p>
     </div>
   );
 };
