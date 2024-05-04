@@ -17,12 +17,15 @@ export const Category = () => {
   }, [categoriesMap, category]);
 
   return (
-    <div className="category-container">
-      {/* only render if products are gotten from firestore API with the && guard */}
-      {products &&
-        products.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-    </div>
+    <>
+      <h2 className="category-title">{category.toUpperCase()}</h2>
+      <div className="category-container">
+        {/* only render if products are gotten from firestore API with the && guard */}
+        {products &&
+          products.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+      </div>
+    </>
   );
 };
