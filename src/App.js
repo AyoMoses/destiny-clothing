@@ -11,7 +11,9 @@ const App = () => {
       <Route path="/" element={<Navigation />}>
         {/*when path matches this url, render this element*/}
         <Route index element={<Home />} />
-        <Route path="shop" element={<Shop />} />
+
+        {/*wild card to mean... match shop with any link that follows */}
+        <Route path="shop/*" element={<Shop />} />
         <Route path="auth" element={<Authentication />} />
         <Route path="checkout" element={<Checkout />} />
       </Route>
