@@ -10,7 +10,7 @@ import {
 
 import { FormInput } from '../form-input/form-input.component';
 
-import { Button } from '../button/button.component';
+import Button, { BUTTON_TYPE_CLASSES } from '../button/button.component';
 
 // setting up our form object structure with a default value
 const defaultFormFields = {
@@ -95,7 +95,11 @@ export const SignInForm = () => {
           <Button type="submit">sign in</Button>
 
           {/* only add a type of button to it to make it behave like a button since its inside of a form so it does not act defauly as a submit button */}
-          <Button type="button" onClick={signInWithGoogle} buttonType="google">
+          <Button
+            type="button"
+            onClick={signInWithGoogle}
+            buttonType={BUTTON_TYPE_CLASSES.google}
+          >
             sign in with google
           </Button>
         </div>
