@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 
-export const ItemLink = styled(Link)`
+
+export const ItemLink = styled.div`
   flex: 1 1 auto;
   display: flex;
   align-items: center;
@@ -9,6 +9,32 @@ export const ItemLink = styled(Link)`
   min-width: 30%;
   height: 240px;
   margin: 0 7.5px 15px;
+`;
+
+export const BackgroundImage = styled.div`
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-image: ${({ imageUrl }) => `url(${imageUrl})`};
+`;
+
+export const Body = styled.div`
+  height: 90px;
+  padding: 0 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid black;
+  background-color: white;
+  opacity: 0.7;
+  position: absolute;
+
+  p {
+    font-weight: lighter;
+    font-size: 16px;
+  }
 `;
 
 export const DirectoryItemContainer = styled.div`
@@ -40,32 +66,6 @@ export const DirectoryItemContainer = styled.div`
   &:last-child {
     margin-left: 7.5px;
   }
-`;
-
-export const Body = styled.div`
-  height: 90px;
-  padding: 0 25px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid black;
-  background-color: white;
-  opacity: 0.7;
-  position: absolute;
-
-  p {
-    font-weight: lighter;
-    font-size: 16px;
-  }
-`;
-
-export const BackgroundImage = styled.div`
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  background-image: ${({ imageUrl }) => `url(${imageUrl})`};
 `;
 
 export const ItemTitle = styled.h2`
