@@ -27,14 +27,7 @@ export const ProductCard = ({ product }) => {
         <ProductName>{name}</ProductName>
         <ProductPrice>{price}</ProductPrice>
       </ProductFooter>
-      {/*
-    
-      <Button
-        buttonType={BUTTON_TYPE_CLASSES.inverted}
-        onClick={addProductToCart}
-      >
-      </Button>
-    */}
+
       <ProductButton
         buttonType={BUTTON_TYPE_CLASSES.inverted}
         onClick={addProductToCart}
