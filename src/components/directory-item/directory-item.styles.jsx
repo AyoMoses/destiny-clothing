@@ -9,7 +9,7 @@ export const ItemLink = styled(Link)`
   min-width: 30%;
   height: 240px;
   margin: 0 7.5px 15px;
-`
+`;
 
 export const DirectoryItemContainer = styled.div`
   min-width: 30%;
@@ -24,17 +24,13 @@ export const DirectoryItemContainer = styled.div`
   cursor: pointer;
 
   &:hover {
-    .background-image {
+    ${BackgroundImage} {
       transform: scale(1.1);
       transition: transform 6s cubic-bezier(0.25, 0.45, 0.45, 0.95);
     }
-    .body {
+    ${Body} {
       opacity: 0.9;
     }
-  }
-
-  &.large {
-    height: 380px;
   }
 
   &:first-child {
@@ -44,17 +40,6 @@ export const DirectoryItemContainer = styled.div`
   &:last-child {
     margin-left: 7.5px;
   }
-`;
-
-export const BackgroundImage = styled.div`
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-`;
-
-export const ItemTitle = styled.h2`
-  text-transform: uppercase;
 `;
 
 export const Body = styled.div`
@@ -69,15 +54,24 @@ export const Body = styled.div`
   opacity: 0.7;
   position: absolute;
 
-  h2 {
-    font-weight: bold;
-    margin: 0 6px 0;
-    font-size: 22px;
-    color: #4a4a4a;
-  }
-
   p {
     font-weight: lighter;
     font-size: 16px;
   }
+`;
+
+export const BackgroundImage = styled.div`
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-image: ${({ imageUrl }) => `url(${imageUrl})`};
+`;
+
+export const ItemTitle = styled.h2`
+  text-transform: uppercase;
+  font-weight: bold;
+  margin: 0 6px 0;
+  font-size: 22px;
+  color: #4a4a4a;
 `;

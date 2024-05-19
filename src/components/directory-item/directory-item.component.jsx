@@ -13,7 +13,7 @@ export const DirectoryItem = ({ category }) => {
   return (
     <ItemLink to={`/shop/${title}`}>
       <DirectoryItemContainer>
-        <BackgroundImage style={{ backgroundImage: `url(${imageUrl})` }} />
+        <BackgroundImage imageUrl={imageUrl} />
         <Body>
           <ItemTitle>{title}</ItemTitle>
           <p>shop now</p>
