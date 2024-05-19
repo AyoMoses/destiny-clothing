@@ -4,8 +4,7 @@ import './sign-in-form.styles.scss';
 
 import {
   signInWithGooglePopup,
-  createUserDocumentFromAuth,
-  signInAuthUserWithEmailAndPassword,
+  // signInAuthUserWithEmailAndPassword,
 } from '../../utils/firebase/firebase.utils';
 
 import { FormInput } from '../form-input/form-input.component';
@@ -31,10 +30,10 @@ export const SignInForm = () => {
 
     try {
       // whenever a user signs, we want to take this user object and we store it inside the context
-      const { user } = await signInAuthUserWithEmailAndPassword(
-        email,
-        password
-      );
+      // const { user } = await signInAuthUserWithEmailAndPassword(
+      //   email,
+      //   password
+      // );
 
       resetFormFields();
     } catch (error) {
