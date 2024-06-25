@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useEffect, useReducer } from 'react';
 
 import {
   createUserDocumentFromAuth,
@@ -12,9 +12,42 @@ export const UserContext = createContext({
   setCurrentUser: () => null,
 });
 
+export const USER_ACTION_TYPES = {
+  SET_CURRENT_USER: 'SET_CURRENT_USER',
+};
+
+const userReducer = (state, action) => {
+  console.log('dispatched');
+  console.log(action);
+  const { type, payload } = action;
+
+  switch (type) {
+    case USER_ACTION_TYPES.SET_CURRENT_USER:
+      return {
+        ...state,
+        currentUser: payload,
+      };
+    default:
+      throw new Error(`Unhandled type ${type} in userReducer`);
+  }
+};
+
+// reducer initial state
+const INITIAL_STATE = {
+  currentUser: null,
+};
+
 export const UserProvider = ({ children }) => {
   // for this provider we initiate a value and setstate function which is null by default
-  const [currentUser, setCurrentUser] = useState(null);
+  // const [currentUser, setCurrentUser] = useState(null);
+
+  // useReducer hook takes two arguments. 1. the particular reducer function. 2. The initial state
+  const [{ currentUser }, dispatch] = useReducer(userReducer, INITIAL_STATE);
+  console.log(currentUser);
+
+  const setCurrentUser = (user) => {
+    dispatch({ type: USER_ACTION_TYPES.SET_CURRENT_USER, payload: user });
+  };
 
   // the value is an object which we pass to the provider
   const value = { currentUser, setCurrentUser };
