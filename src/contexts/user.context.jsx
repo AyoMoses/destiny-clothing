@@ -16,6 +16,7 @@ export const USER_ACTION_TYPES = {
   SET_CURRENT_USER: 'SET_CURRENT_USER',
 };
 
+// we write reducer to change the state. 
 const userReducer = (state, action) => {
   console.log('dispatched');
   console.log(action);
