@@ -16,7 +16,8 @@ export const USER_ACTION_TYPES = {
   SET_CURRENT_USER: 'SET_CURRENT_USER',
 };
 
-// we write reducer to change the state. 
+// we write reducer to change the state. It takes the PREVIOUS STATE and an ACTION
+// Then we reduce it(read only) to one entity: the new updated instance state
 const userReducer = (state, action) => {
   console.log('dispatched');
   console.log(action);
@@ -25,6 +26,7 @@ const userReducer = (state, action) => {
   switch (type) {
     case USER_ACTION_TYPES.SET_CURRENT_USER:
       return {
+        // MAKE A COPE OF THE ENTIRE STATE SINCE STATE IS IMMMUTABLE. MAKE OUR CHAGES AND RETURN THE CURRENT USER PAYLOAD 
         ...state,
         currentUser: payload,
       };
