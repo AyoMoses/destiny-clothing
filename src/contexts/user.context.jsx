@@ -7,6 +7,8 @@ import {
 
 import { createAction } from '../utils/reducer/reducer.utils';
 
+import { USER_ACTION_TYPES } from '../store/user/user.types';
+
 // as the actual value you want to access
 export const UserContext = createContext({
   // current user is an actual object
@@ -14,9 +16,7 @@ export const UserContext = createContext({
   setCurrentUser: () => null,
 });
 
-export const USER_ACTION_TYPES = {
-  SET_CURRENT_USER: 'SET_CURRENT_USER',
-};
+
 
 // we write reducer to change the state. It takes the PREVIOUS STATE and an ACTION
 // Then we reduce it(read only) to one entity: the new updated instance state
