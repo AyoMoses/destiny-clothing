@@ -8,7 +8,7 @@ import {
 } from './cart-icon.styles.jsx';
 
 export const CartIcon = () => {
-  const { isCartOpen, setIsCartOpen, totalCartQuantity } =
+  const { isCartOpen, setIsCartOpen, cartCount } =
     useContext(CartContext);
   const handleDropDownToggle = () => setIsCartOpen(!isCartOpen);
 
@@ -18,7 +18,7 @@ export const CartIcon = () => {
   return (
     <CartIconContainer onClick={handleDropDownToggle}>
       <StyledShoppingIcon className="shopping-icon" />
-      <ItemCount>{totalCartQuantity}</ItemCount>
+      <ItemCount>{cartCount}</ItemCount>
     </CartIconContainer>
   );
 };

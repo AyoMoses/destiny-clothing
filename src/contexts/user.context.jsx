@@ -5,6 +5,8 @@ import {
   onAuthStateChangedListener,
 } from '../utils/firebase/firebase.utils';
 
+import { createAction } from '../utils/reducer/reducer.utils';
+
 // as the actual value you want to access
 export const UserContext = createContext({
   // current user is an actual object
@@ -26,7 +28,7 @@ const userReducer = (state, action) => {
   switch (type) {
     case USER_ACTION_TYPES.SET_CURRENT_USER:
       return {
-        // MAKE A COPE OF THE ENTIRE STATE SINCE STATE IS IMMMUTABLE. MAKE OUR CHAGES AND RETURN THE CURRENT USER PAYLOAD 
+        // MAKE A COPY OF THE ENTIRE STATE SINCE STATE IS IMMMUTABLE. MAKE OUR CHAGES AND RETURN THE CURRENT USER PAYLOAD
         ...state,
         currentUser: payload,
       };
@@ -49,7 +51,7 @@ export const UserProvider = ({ children }) => {
   console.log(currentUser);
 
   const setCurrentUser = (user) => {
-    dispatch({ type: USER_ACTION_TYPES.SET_CURRENT_USER, payload: user });
+    dispatch(createAction(USER_ACTION_TYPES.SET_CURRENT_USER, user));
   };
 
   // the value is an object which we pass to the provider
