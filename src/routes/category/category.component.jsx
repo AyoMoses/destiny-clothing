@@ -10,7 +10,7 @@ import { ProductCard } from '../../components/product-card/product-card.componen
 export const Category = () => {
   // destructure and get the name used in shop component to get dynamic route
   const { category } = useParams();
-  const categoriesMap = useSelector(selectCategoriesMap)
+  const categoriesMap = useSelector(selectCategoriesMap);
   const [products, setProducts] = useState(categoriesMap[category]);
 
   useEffect(() => {
