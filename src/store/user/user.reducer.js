@@ -8,8 +8,6 @@ const INITIAL_STATE = {
 // we write reducer to change the state. It takes the PREVIOUS STATE and an ACTION
 // Then we reduce it(read only) to one entity: the new updated instance state
 export const userReducer = (state = INITIAL_STATE, action) => {
-  console.log('dispatched');
-  console.log(action);
   const { type, payload } = action;
 
   switch (type) {

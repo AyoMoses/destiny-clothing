@@ -81,13 +81,16 @@ export const getCatgoriesAndDocuments = async () => {
   const q = query(collectionRef);
 
   const querySnapShot = await getDocs(q);
-  const categoryMap = querySnapShot.docs.reduce((acc, docSnapshot) => {
-    const { title, items } = docSnapshot.data();
-    acc[title.toLowerCase()] = items;
-    return acc; 
-  }, {});
 
-  return categoryMap;
+  return querySnapShot.docs.map((docSnapshot) => docSnapshot.data());
+
+  // const categoryMap = querySnapShot.docs.reduce((acc, docSnapshot) => {
+  //   const { title, items } = docSnapshot.data();
+  //   acc[title.toLowerCase()] = items;
+  //   return acc;
+  // }, {});
+
+
 };
 
 // an async function that takes our authenticated user and sends it to be stored on firestore
