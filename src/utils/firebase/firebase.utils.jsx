@@ -72,7 +72,6 @@ export const AddCollectionAndDocuments = async (
   });
 
   await batch.commit();
-  console.log('DONE!');
 };
 
 // GET THE DATA FROM FIRESTORE
@@ -85,7 +84,7 @@ export const getCatgoriesAndDocuments = async () => {
   const categoryMap = querySnapShot.docs.reduce((acc, docSnapshot) => {
     const { title, items } = docSnapshot.data();
     acc[title.toLowerCase()] = items;
-    return acc;
+    return acc; 
   }, {});
 
   return categoryMap;

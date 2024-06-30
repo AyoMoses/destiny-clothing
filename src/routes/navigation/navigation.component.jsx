@@ -19,6 +19,8 @@ import {
 } from './navigation.styles.jsx';
 
 export const Navigation = () => {
+  // useSelector goes into redux and gets the deeply nested state we want
+  // useSelector are functions that takes state and return the value nested
   const currentUser = useSelector(selectCurrentUser);
   const handleSignOut = () => {
     signOutUser();

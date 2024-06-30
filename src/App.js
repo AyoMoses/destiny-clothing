@@ -12,6 +12,7 @@ import { Navigation } from './routes/navigation/navigation.component';
 import { Authentication } from './routes/authentication/authentication.component';
 import { Shop } from './routes/shop/shop.component';
 import { Checkout } from './routes/checkout/check-out.component';
+
 import { setCurrentUser } from './store/user/user.action';
 
 const App = () => {
@@ -34,6 +35,7 @@ const App = () => {
 
     return unsubscribe;
   }, [dispatch]);
+
   return (
     <Routes>
       <Route path="/" element={<Navigation />}>
