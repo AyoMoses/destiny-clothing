@@ -1,13 +1,15 @@
-import { React, Fragment, useContext } from 'react';
+import { React, Fragment } from 'react';
 import { Outlet } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-import { UserContext } from '../../contexts/user.context';
 import { signOutUser } from '../../utils/firebase/firebase.utils';
 
 import { ReactComponent as LogoIcon } from '../../assets/crown.svg';
 
 import { CartIcon } from '../../components/cart-icon/cart-icon.component';
 import { CartDropdown } from '../../components/cart-dropdown/cart-dropdown.component';
+
+import { selectCurrentUser } from '../../store/user/user.selector.js';
 
 import {
   LogoContainer,
@@ -17,8 +19,7 @@ import {
 } from './navigation.styles.jsx';
 
 export const Navigation = () => {
-  const { currentUser } = useContext(UserContext);
-
+  const currentUser = useSelector(selectCurrentUser);
   const handleSignOut = () => {
     signOutUser();
   };
