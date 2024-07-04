@@ -3,26 +3,16 @@ import {
   applyMiddleware,
   legacy_createStore as createStore,
 } from 'redux';
+
 // import { logger } from 'redux-logger';
+import { loggerMiddleware } from './middleware/logger';
+
 import { rootReducer } from './root-reducer';
 
 // local storage
 import { persistStore, persistReducer } from 'redux-persist';
+
 import storage from 'redux-persist/lib/storage';
-
-const loggerMiddleware = (store) => (next) => (action) => {
-  if (!action.type) {
-    return next(action);
-  }
-
-  console.log('type: ', action.type);
-  console.log('payload: ', action.payload);
-  console.log('currentState: ', store.getState());
-
-  next(action);
-
-  console.log('next state: ', store.getState());
-};
 
 // PERSIST STORAGE ON LOCAL STORAGE WITH REDUX PERSIST
 const persistConfig = {
@@ -35,12 +25,27 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 // middlesWares catch action before the hit the store and log them
 // can replace with the actual logger from redux instead of my customer logger ch updates the DOM events better
-const middleWares = [loggerMiddleware];
+// apply middleware only in development and filter it out if its false
+// if we are not in production, apply logger
+const middleWares = [
+  process.env.NODE_ENV !== 'production' && loggerMiddleware,
+].filter(Boolean); // filter out if its not true
 
-const composedEnhancers = compose(applyMiddleware(...middleWares));
+// REACT DEVTOOL SETUP
+// if redux devtool fails then we use the regular compose
+const composeEnhancer =
+  (process.env.NODE_ENV !== 'production' &&
+    window &&
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
+  compose;
+const composedEnhancers = composeEnhancer(applyMiddleware(...middleWares));
 
 // every store needs a root reducer in order to work
 // undefined is the second param to make it easier to test as a default state. It is also optional
 // export const store = createStore(rootReducer, undefined, composedEnhancers);
-export const store = createStore(persistedReducer, undefined, composedEnhancers);
+export const store = createStore(
+  persistedReducer,
+  undefined,
+  composedEnhancers
+);
 export const persistor = persistStore(store);
