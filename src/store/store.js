@@ -4,6 +4,8 @@ import {
   legacy_createStore as createStore,
 } from 'redux';
 
+import { thunk } from 'redux-thunk';
+
 // import { logger } from 'redux-logger';
 import { loggerMiddleware } from './middleware/logger';
 
@@ -28,7 +30,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 // apply middleware only in development and filter it out if its false
 // if we are not in production, apply logger
 const middleWares = [
-  process.env.NODE_ENV !== 'production' && loggerMiddleware,
+  process.env.NODE_ENV !== 'production' && loggerMiddleware, thunk
 ].filter(Boolean); // filter out if its not true
 
 // REACT DEVTOOL SETUP
