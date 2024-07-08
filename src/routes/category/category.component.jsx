@@ -1,16 +1,26 @@
 import { useState, useEffect } from 'react';
-
-import { useSelector } from 'react-redux';
-import { selectCategoriesMap } from '../../store/categories/category.selector';
-
 import { useParams } from 'react-router-dom';
-import './category.styles.scss';
+import { useSelector } from 'react-redux';
+
+import {
+  selectCategoriesIsLoading,
+  selectCategoriesMap,
+} from '../../store/categories/category.selector';
+
 import { ProductCard } from '../../components/product-card/product-card.component';
+import { renderSkeletons } from '../../utils/skeleton.utils';
+
+import {
+  CategoryContainer,
+  CategoryTitle,
+  SkeletonContainer,
+} from './category.styles';
 
 export const Category = () => {
   // destructure and get the name used in shop component to get dynamic route
   const { category } = useParams();
   const categoriesMap = useSelector(selectCategoriesMap);
+  const isLoading = useSelector(selectCategoriesIsLoading);
   const [products, setProducts] = useState(categoriesMap[category]);
 
   useEffect(() => {
@@ -19,14 +29,20 @@ export const Category = () => {
 
   return (
     <>
-      <h2 className="category-title">{category.toUpperCase()}</h2>
-      <div className="category-container">
-        {/* only render if products are gotten from firestore API with the && guard */}
-        {products &&
-          products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-      </div>
+      <CategoryTitle>{category.toUpperCase()}</CategoryTitle>
+      {isLoading ? (
+        <SkeletonContainer>
+          {renderSkeletons(products ? products.length : 7)}
+        </SkeletonContainer>
+      ) : (
+        <CategoryContainer>
+          {/* only render if products are gotten from firestore API with the && guard */}
+          {products &&
+            products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+        </CategoryContainer>
+      )}
     </>
   );
 };
