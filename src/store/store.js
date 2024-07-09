@@ -21,7 +21,7 @@ const persistConfig = {
   key: 'root',
   storage: storage, //shorthand is storage
   blacklist: ['user'], // from the root reducer, we blacklist user from being stored
-  whitelist: ['cart']
+  whitelist: ['cart'] // only persist cart alone
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

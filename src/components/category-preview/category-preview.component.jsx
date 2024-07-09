@@ -4,9 +4,8 @@ import {
   Title,
   PreviewGrid,
 } from './category-preview.styles.jsx';
-import { Link } from 'react-router-dom';
-
 import { ProductCard } from '../product-card/product-card.component';
+import { Link } from 'react-router-dom';
 
 export const CategoryPreview = ({ title, products }) => {
   return (

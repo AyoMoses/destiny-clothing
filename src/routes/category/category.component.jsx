@@ -10,11 +10,8 @@ import {
 import { ProductCard } from '../../components/product-card/product-card.component';
 import { renderSkeletons } from '../../utils/skeleton.utils';
 
-import {
-  CategoryContainer,
-  CategoryTitle,
-  SkeletonContainer,
-} from './category.styles';
+import { SkeletonContainer } from './category.styles';
+import { CategoryContainer, CategoryTitle } from './category.styles';
 
 export const Category = () => {
   // destructure and get the name used in shop component to get dynamic route
