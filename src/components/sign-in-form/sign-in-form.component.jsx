@@ -10,6 +10,7 @@ import {
 import { FormInput } from '../form-input/form-input.component';
 
 import Button, { BUTTON_TYPE_CLASSES } from '../button/button.component';
+import { useNavigate } from 'react-router-dom';
 
 // setting up our form object structure with a default value
 const defaultFormFields = {
@@ -20,6 +21,7 @@ const defaultFormFields = {
 export const SignInForm = () => {
   const [formFields, setFormFields] = React.useState(defaultFormFields);
   const { email, password } = formFields;
+  const navigate = useNavigate();
 
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
@@ -63,7 +65,12 @@ export const SignInForm = () => {
 
   // any call made to a database is asynchronous
   const signInWithGoogle = async () => {
-    await signInWithGooglePopup();
+    try {
+      const authRes = await signInWithGooglePopup();
+      authRes.user ? navigate('/') : navigate('/auth');
+    } catch (error) {
+      console.log(`${error}.No user record found`);
+    }
   };
 
   return (

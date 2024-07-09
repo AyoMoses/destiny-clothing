@@ -1,5 +1,5 @@
 import { React, Fragment } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { signOutUser } from '../../utils/firebase/firebase.utils';
@@ -22,9 +22,11 @@ export const Navigation = () => {
   // useSelector goes into redux and gets the deeply nested state we want
   // useSelector are functions that takes state and return the value nested
   const currentUser = useSelector(selectCurrentUser);
+  const navigate = useNavigate();
 
   const handleSignOut = () => {
     signOutUser();
+    navigate('/auth')
   };
 
   return (
