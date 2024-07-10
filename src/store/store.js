@@ -4,34 +4,40 @@ import {
   legacy_createStore as createStore,
 } from 'redux';
 
-import { thunk } from 'redux-thunk';
-
-// import { logger } from 'redux-logger';
+// import { thunk } from 'redux-thunk';
+import createSagaMiddleware from 'redux-saga';
 import { loggerMiddleware } from './middleware/logger';
 
+import { rootSaga } from './root-saga';
 import { rootReducer } from './root-reducer';
+
+// import { logger } from 'redux-logger';
+
 
 // local storage
 import { persistStore, persistReducer } from 'redux-persist';
-
 import storage from 'redux-persist/lib/storage';
+
 
 // PERSIST STORAGE ON LOCAL STORAGE WITH REDUX PERSIST
 const persistConfig = {
   key: 'root',
   storage: storage, //shorthand is storage
   blacklist: ['user'], // from the root reducer, we blacklist user from being stored
-  whitelist: ['cart'] // only persist cart alone
+  whitelist: ['cart'], // only persist cart alone
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+const sagaMiddleware = createSagaMiddleware();
 
 // middlesWares catch action before the hit the store and log them
 // can replace with the actual logger from redux instead of my customer logger ch updates the DOM events better
 // apply middleware only in development and filter it out if its false
 // if we are not in production, apply logger
 const middleWares = [
-  process.env.NODE_ENV !== 'production' && loggerMiddleware, thunk
+  process.env.NODE_ENV !== 'production' && loggerMiddleware,
+  sagaMiddleware,
 ].filter(Boolean); // filter out if its not true
 
 // REACT DEVTOOL SETUP
@@ -51,4 +57,7 @@ export const store = createStore(
   undefined,
   composedEnhancers
 );
+
+sagaMiddleware.run(rootSaga);
+
 export const persistor = persistStore(store);
