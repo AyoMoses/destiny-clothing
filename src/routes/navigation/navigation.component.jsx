@@ -26,7 +26,6 @@ export const Navigation = () => {
 
   const handleSignOut = () => {
     signOutUser();
-    navigate('/auth')
   };
 
   return (
