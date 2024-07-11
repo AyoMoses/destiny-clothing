@@ -5,7 +5,7 @@ export const FormInput = ({ label, ...otherProps }) => {
   return (
     <Group>
       {label && (
-        <FormInputLabel shrink={otherProps.value.length > 0}>
+        <FormInputLabel $shrink={otherProps.value.length > 0}>
           {label}
         </FormInputLabel>
       )}

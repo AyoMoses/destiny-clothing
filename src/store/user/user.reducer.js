@@ -3,6 +3,8 @@ import { USER_ACTION_TYPES } from './user.types';
 // reducer initial state
 const INITIAL_STATE = {
   currentUser: null,
+  isLoading: false,
+  error: null,
 };
 
 // we write reducer to change the state. It takes the PREVIOUS STATE and an ACTION
@@ -11,12 +13,15 @@ export const userReducer = (state = INITIAL_STATE, action) => {
   const { type, payload } = action;
 
   switch (type) {
-    case USER_ACTION_TYPES.SET_CURRENT_USER:
+    case USER_ACTION_TYPES.SIGN_IN_SUCCESS:
+      console.log('SIGN_IN_SUCCESS:', payload);
       return {
         // MAKE A COPY OF THE ENTIRE STATE SINCE STATE IS IMMMUTABLE. MAKE OUR CHAGES AND RETURN THE CURRENT USER PAYLOAD
         ...state,
         currentUser: payload,
       };
+    case USER_ACTION_TYPES.SIGN_IN_FAILED:
+      return { ...state, error: payload };
     default:
       return state; // return the default state if no action meets the switch cases
   }

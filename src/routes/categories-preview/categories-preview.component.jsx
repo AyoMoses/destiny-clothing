@@ -18,7 +18,6 @@ export const CategoriesPreview = () => {
       {isLoading ? (
         <SkeletonContainer>
           {renderSkeletons(Object.keys(categoriesMap).length || 8)}
-          
         </SkeletonContainer>
       ) : (
         Object.keys(categoriesMap).map((title) => {

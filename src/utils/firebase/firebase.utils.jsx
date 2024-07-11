@@ -11,7 +11,6 @@ import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
 } from 'firebase/auth';
-
 // we get firestore and the access to get doc from the document instance, then getDoc and setDoc do not mean what the method names are but getting and setting data from/to firestore. You get Doc with `doc` and set and get data on the doc with getDoc and setDoc. `doc` is a function that takes 3 arguements
 import {
   getFirestore,
@@ -89,8 +88,6 @@ export const getCatgoriesAndDocuments = async () => {
   //   acc[title.toLowerCase()] = items;
   //   return acc;
   // }, {});
-
-
 };
 
 // an async function that takes our authenticated user and sends it to be stored on firestore
@@ -98,19 +95,11 @@ export const createUserDocumentFromAuth = async (
   userAuth,
   additionalInformation = {}
 ) => {
-  // by protecting our code. If we get nothing, don't run the function. "Guard clause"
   if (!userAuth) return;
 
-  // doc takes 3 arguements.
-  // 1. is our database from firestore
-  // 2. is our collection
-  // 3. is our identifier to identiy the user which comes from the user object when signed in. uid
   const userDocRef = doc(db, 'users', userAuth.uid);
-
   const userSnapshot = await getDoc(userDocRef);
 
-  // if user data does not exist
-  // if it exists, the code below will not run since i have inverted with the ! which returns true if it does not exist
   if (!userSnapshot.exists()) {
     const { displayName, email } = userAuth;
     const createdAt = new Date();
@@ -127,9 +116,6 @@ export const createUserDocumentFromAuth = async (
     }
   }
 
-  // check if user data exists
-
-  // if it does exist, return user doc ref
   return userDocRef;
 };
 
@@ -160,3 +146,17 @@ export const signOutUser = async () => await signOut(auth);
 // NOTE: You always have to tell the component using it to stop observing when it unmounts else it causes a memory leak
 export const onAuthStateChangedListener = (callback) =>
   onAuthStateChanged(auth, callback);
+
+export const getCurrentUser = () => {
+  // pass the resolve and reject callbacks to the Promise
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (userAuth) => {
+        unsubscribe(); // once we get a current user value, we unsubscribe
+        resolve(userAuth);
+      },
+      reject
+    );
+  });
+};

@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import './sign-in-form.styles.scss';
 
 import {
-  signInWithGooglePopup,
-  // signInAuthUserWithEmailAndPassword,
-} from '../../utils/firebase/firebase.utils';
+  googleSignInStart,
+  emailSignInStart,
+} from '../../store/user/user.action';
 
+import { useDispatch } from 'react-redux';
 import { FormInput } from '../form-input/form-input.component';
 
 import Button, { BUTTON_TYPE_CLASSES } from '../button/button.component';
@@ -19,58 +20,33 @@ const defaultFormFields = {
 };
 
 export const SignInForm = () => {
-  const [formFields, setFormFields] = React.useState(defaultFormFields);
+  const dispatch = useDispatch();
+  const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
-  const navigate = useNavigate();
 
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
+  };
+
+  const signInWithGoogle = async () => {
+    dispatch(googleSignInStart());
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      // whenever a user signs, we want to take this user object and we store it inside the context
-      // const { user } = await signInAuthUserWithEmailAndPassword(
-      //   email,
-      //   password
-      // );
-
+      dispatch(emailSignInStart(email, password));
       resetFormFields();
     } catch (error) {
-      switch (error.code) {
-        case 'auth/invalid-login-credentials':
-          alert('incorrect email or password');
-          break;
-        case 'auth/user-not-found':
-          alert('no user associated with this email');
-          break;
-        default:
-          console.log(error);
-      }
-      //   if (error.code === 'auth/invalid-login-credentials')
-      //     alert('please check that your email or password is correct');
-      //   console.log(error, 'error creating your account');
+      console.log('user sign in failed', error);
     }
   };
 
-  // shorthand method of storing and setting the uniform object
   const handleChange = (event) => {
-    // the name property and value of the event
     const { name, value } = event.target;
 
     setFormFields({ ...formFields, [name]: value });
-  };
-
-  // any call made to a database is asynchronous
-  const signInWithGoogle = async () => {
-    try {
-      const authRes = await signInWithGooglePopup();
-      authRes.user ? navigate('/') : navigate('/auth');
-    } catch (error) {
-      console.log(`${error}.No user record found`);
-    }
   };
 
   return (
