@@ -41,11 +41,12 @@ export const Navigation = () => {
   const showDisplayName = getDisplayName();
 
   const getTime = () => {
-    const currentHour = new Date().getHours();
+    const newDate = new Date();
+    const currentHour = newDate.getHours();
 
     if (currentHour < 12) {
       return 'Good morning';
-    } else if (currentHour < 18) {
+    } else if (currentHour >= 12 && currentHour <= 17) {
       return 'Good afternoon';
     } else {
       return 'Good evening';
