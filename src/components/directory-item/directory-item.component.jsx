@@ -17,7 +17,7 @@ export const DirectoryItem = ({ category }) => {
   return (
     <ItemLink onClick={onNavigationHandler}>
       <DirectoryItemContainer>
-        <BackgroundImage imageUrl={imageUrl} />
+        <BackgroundImage $imageUrl={imageUrl} />
         <Body>
           <ItemTitle>{title}</ItemTitle>
           <p>shop now</p>
