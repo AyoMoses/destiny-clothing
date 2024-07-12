@@ -23,6 +23,7 @@ export const SignInForm = () => {
   const dispatch = useDispatch();
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
+  const navigate = useNavigate();
 
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
@@ -38,6 +39,7 @@ export const SignInForm = () => {
     try {
       dispatch(emailSignInStart(email, password));
       resetFormFields();
+      navigate('/');
     } catch (error) {
       console.log('user sign in failed', error);
     }

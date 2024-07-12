@@ -38,10 +38,7 @@ export const Navigation = () => {
     const splitName = userName.split(' ')[0];
     return splitName;
   };
-
-  // const userName = currentUser.displayName;
-  // console.log(currentUser.displayName);
-  // const splitName = userName.split(' ')[0];
+  const showDisplayName = getDisplayName();
 
   const getTime = () => {
     const currentHour = new Date().getHours();
@@ -66,7 +63,7 @@ export const Navigation = () => {
           </LogoContainer>
 
           {currentUser && (
-            <h3>{`${greeting}, ${currentUser ? getDisplayName : ''}`}</h3>
+            <h3>{`${greeting}, ${currentUser ? showDisplayName : ''}`}</h3>
           )}
         </LogoNameWrapper>
 
