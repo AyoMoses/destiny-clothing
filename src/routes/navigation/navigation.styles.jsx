@@ -16,8 +16,14 @@ export const LogoContainer = styled(Link)`
   padding: 25px;
 `;
 
+export const LogoNameWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5rem;
+`;
+
 export const NavLinks = styled.div`
-  width: 100%;
   height: 100%;
   display: flex;
   align-items: center;

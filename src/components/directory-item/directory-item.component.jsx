@@ -7,12 +7,21 @@ import {
   ItemTitle,
   ItemLink,
 } from './directory-item.styles.jsx';
+import { useSelector } from 'react-redux';
+import { selectCurrentUser } from '../../store/user/user.selector.js';
 
 export const DirectoryItem = ({ category }) => {
   const { imageUrl, title, route } = category;
   const navigate = useNavigate();
+  const currentUser = useSelector(selectCurrentUser);
 
-  const onNavigationHandler = () => navigate(route);
+  const onNavigationHandler = () => {
+    if (currentUser) {
+      navigate(route);
+    } else {
+      navigate('/auth');
+    }
+  };
 
   return (
     <ItemLink onClick={onNavigationHandler}>

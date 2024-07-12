@@ -13,6 +13,7 @@ import { selectCurrentUser } from '../../store/user/user.selector.js';
 
 import {
   LogoContainer,
+  LogoNameWrapper,
   NavigationContainer,
   NavLinks,
   NavLink,
@@ -26,17 +27,55 @@ export const Navigation = () => {
 
   const handleSignOut = () => {
     signOutUser();
+    navigate('/auth');
+    console.log('I AM SIGNED OUT', signOutUser);
   };
+
+  const getDisplayName = () => {
+    if (!currentUser) return;
+    const userName = currentUser.displayName;
+    if (!userName) return;
+    const splitName = userName.split(' ')[0];
+    return splitName;
+  };
+
+  // const userName = currentUser.displayName;
+  // console.log(currentUser.displayName);
+  // const splitName = userName.split(' ')[0];
+
+  const getTime = () => {
+    const currentHour = new Date().getHours();
+
+    if (currentHour < 12) {
+      return 'Good morning';
+    } else if (currentHour < 18) {
+      return 'Good afternoon';
+    } else {
+      return 'Good evening';
+    }
+  };
+
+  const greeting = getTime();
 
   return (
     <Fragment>
       <NavigationContainer>
-        <LogoContainer to="/">
-          <LogoIcon className="logo" />
-        </LogoContainer>
+        <LogoNameWrapper>
+          <LogoContainer to="/">
+            <LogoIcon className="logo" />
+          </LogoContainer>
+
+          {currentUser && (
+            <h3>{`${greeting}, ${currentUser ? getDisplayName : ''}`}</h3>
+          )}
+        </LogoNameWrapper>
 
         <NavLinks>
-          <NavLink to="/shop">shop</NavLink>
+          {currentUser ? (
+            <NavLink to="/shop">shop</NavLink>
+          ) : (
+            <NavLink to="/auth">shop</NavLink>
+          )}
 
           {currentUser ? (
             // render the navLink as a span
@@ -46,7 +85,6 @@ export const Navigation = () => {
           ) : (
             <NavLink to="/auth">sign in</NavLink>
           )}
-
           <CartIcon />
         </NavLinks>
 

@@ -17,6 +17,7 @@ export function* getSnapshotFromUserAuth(userAuth, additionalDetails) {
     );
     const userSnapshot = yield call(getDoc, userDocRef);
     console.log('User Snapshot:', userSnapshot);
+    console.log('User Snapshot data:', userSnapshot.data().displayName);
 
     if (!userSnapshot.exists) {
       console.error('User snapshot does not exist');
