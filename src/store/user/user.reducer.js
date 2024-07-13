@@ -1,14 +1,11 @@
 import { USER_ACTION_TYPES } from './user.types';
 
-// reducer initial state
 const INITIAL_STATE = {
   currentUser: null,
   isLoading: false,
   error: null,
 };
 
-// we write reducer to change the state. It takes the PREVIOUS STATE and an ACTION
-// Then we reduce it(read only) to one entity: the new updated instance state
 export const userReducer = (state = INITIAL_STATE, action) => {
   const { type, payload } = action;
 
@@ -16,13 +13,19 @@ export const userReducer = (state = INITIAL_STATE, action) => {
     case USER_ACTION_TYPES.SIGN_IN_SUCCESS:
       console.log('SIGN_IN_SUCCESS:', payload);
       return {
-        // MAKE A COPY OF THE ENTIRE STATE SINCE STATE IS IMMMUTABLE. MAKE OUR CHAGES AND RETURN THE CURRENT USER PAYLOAD
         ...state,
         currentUser: payload,
       };
+    case USER_ACTION_TYPES.SIGN_OUT_SUCCESS:
+      return {
+        ...state,
+        currentUser: null,
+      };
     case USER_ACTION_TYPES.SIGN_IN_FAILED:
+    case USER_ACTION_TYPES.SIGN_UP_FAILED:
+    case USER_ACTION_TYPES.SIGN_OUT_FAILED:
       return { ...state, error: payload };
     default:
-      return state; // return the default state if no action meets the switch cases
+      return state;
   }
 };

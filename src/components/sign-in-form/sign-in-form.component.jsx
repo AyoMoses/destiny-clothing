@@ -1,19 +1,14 @@
-import React, { useState } from 'react';
-
-import './sign-in-form.styles.scss';
-
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   googleSignInStart,
   emailSignInStart,
 } from '../../store/user/user.action';
-
-import { useDispatch } from 'react-redux';
 import { FormInput } from '../form-input/form-input.component';
-
 import Button, { BUTTON_TYPE_CLASSES } from '../button/button.component';
 import { useNavigate } from 'react-router-dom';
+import './sign-in-form.styles.scss';
 
-// setting up our form object structure with a default value
 const defaultFormFields = {
   email: '',
   password: '',
@@ -24,6 +19,13 @@ export const SignInForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
   const navigate = useNavigate();
+  const currentUser = useSelector((state) => state.user.currentUser);
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate('/');
+    }
+  }, [currentUser, navigate]);
 
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
@@ -35,19 +37,12 @@ export const SignInForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    try {
-      dispatch(emailSignInStart(email, password));
-      resetFormFields();
-      navigate('/');
-    } catch (error) {
-      console.log('user sign in failed', error);
-    }
+    dispatch(emailSignInStart(email, password));
+    resetFormFields();
   };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-
     setFormFields({ ...formFields, [name]: value });
   };
 
@@ -65,7 +60,6 @@ export const SignInForm = () => {
           name="email"
           value={email}
         />
-
         <FormInput
           label="Password"
           type="password"
@@ -74,11 +68,8 @@ export const SignInForm = () => {
           name="password"
           value={password}
         />
-
         <div className="buttons-container">
           <Button type="submit">sign in</Button>
-
-          {/* only add a type of button to it to make it behave like a button since its inside of a form so it does not act defauly as a submit button */}
           <Button
             type="button"
             onClick={signInWithGoogle}

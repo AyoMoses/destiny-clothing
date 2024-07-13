@@ -1,15 +1,14 @@
-import { React, Fragment } from 'react';
+import React, { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-
-import { signOutUser } from '../../utils/firebase/firebase.utils';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { ReactComponent as LogoIcon } from '../../assets/crown.svg';
 
 import { CartIcon } from '../../components/cart-icon/cart-icon.component';
 import { CartDropdown } from '../../components/cart-dropdown/cart-dropdown.component';
 
-import { selectCurrentUser } from '../../store/user/user.selector.js';
+import { selectCurrentUser } from '../../store/user/user.selector';
+import { signOutStart } from '../../store/user/user.action';
 
 import {
   LogoContainer,
@@ -17,28 +16,31 @@ import {
   NavigationContainer,
   NavLinks,
   NavLink,
-} from './navigation.styles.jsx';
+} from './navigation.styles';
 
 export const Navigation = () => {
-  // useSelector goes into redux and gets the deeply nested state we want
-  // useSelector are functions that takes state and return the value nested
+  const dispatch = useDispatch();
   const currentUser = useSelector(selectCurrentUser);
   const navigate = useNavigate();
 
-  const handleSignOut = () => {
-    signOutUser();
+  useEffect(() => {
+    if (!currentUser) {
+      navigate('/auth');
+    }
+  }, [currentUser, navigate]);
+
+  const signOutUser = () => {
+    dispatch(signOutStart());
     navigate('/auth');
-    console.log('I AM SIGNED OUT', signOutUser);
   };
 
   const getDisplayName = () => {
-    if (!currentUser) return;
+    if (!currentUser) return '';
     const userName = currentUser.displayName;
-    if (!userName) return;
+    if (!userName) return '';
     const splitName = userName.split(' ')[0];
     return splitName;
   };
-  const showDisplayName = getDisplayName();
 
   const getTime = () => {
     const newDate = new Date();
@@ -54,30 +56,22 @@ export const Navigation = () => {
   };
 
   const greeting = getTime();
+  const showDisplayName = getDisplayName();
 
   return (
-    <Fragment>
+    <>
       <NavigationContainer>
         <LogoNameWrapper>
           <LogoContainer to="/">
             <LogoIcon className="logo" />
           </LogoContainer>
-
-          {currentUser && (
-            <h3>{`${greeting}, ${currentUser ? showDisplayName : ''}`}</h3>
-          )}
+          {currentUser && <h3>{`${greeting}, ${showDisplayName}`}</h3>}
         </LogoNameWrapper>
 
         <NavLinks>
+          <NavLink to="/shop">shop</NavLink>
           {currentUser ? (
-            <NavLink to="/shop">shop</NavLink>
-          ) : (
-            <NavLink to="/auth">shop</NavLink>
-          )}
-
-          {currentUser ? (
-            // render the navLink as a span
-            <NavLink as="span" onClick={handleSignOut}>
+            <NavLink as="span" onClick={signOutUser}>
               sign out
             </NavLink>
           ) : (
@@ -85,10 +79,9 @@ export const Navigation = () => {
           )}
           <CartIcon />
         </NavLinks>
-
         <CartDropdown />
       </NavigationContainer>
       <Outlet />
-    </Fragment>
+    </>
   );
 };
