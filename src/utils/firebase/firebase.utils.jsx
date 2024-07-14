@@ -10,6 +10,7 @@ import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
   onAuthStateChanged,
+  getRedirectResult,
 } from 'firebase/auth';
 // we get firestore and the access to get doc from the document instance, then getDoc and setDoc do not mean what the method names are but getting and setting data from/to firestore. You get Doc with `doc` and set and get data on the doc with getDoc and setDoc. `doc` is a function that takes 3 arguements
 import {
@@ -53,6 +54,7 @@ export const signInWithGooglePopup = () =>
   signInWithPopup(auth, googleProvider);
 export const signInWithGoogleRedirect = () =>
   signInWithRedirect(auth, googleProvider);
+export const getRedirectResultFromGoogle = () => getRedirectResult(auth);
 
 // we instantiate firestore and use it to access our DB. This simple instance allows us to tell firestore when we want to set or get data to/from our db
 export const db = getFirestore();

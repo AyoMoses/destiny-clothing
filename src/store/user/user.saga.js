@@ -15,6 +15,7 @@ import {
   signInWithGoogleRedirect,
   signInAuthUserWithEmailAndPassword,
   signOutUser,
+  getRedirectResultFromGoogle,
 } from '../../utils/firebase/firebase.utils';
 import { getDoc } from 'firebase/firestore';
 import { updateProfile } from 'firebase/auth';
@@ -38,8 +39,13 @@ export function* getSnapshotFromUserAuth(userAuth, additionalDetails) {
 
 export function* signInWithGoogle() {
   try {
-    const { user } = yield call(signInWithGoogleRedirect);
-    yield call(getSnapshotFromUserAuth, user);
+    yield call(signInWithGoogleRedirect);
+    const result = yield call(getRedirectResultFromGoogle);
+    if (result.user) {
+      yield call(getSnapshotFromUserAuth, result.user);
+    } else {
+      yield put(signInFailed('No user found from Google Sign-In'));
+    }
   } catch (error) {
     yield put(signInFailed(error));
   }
