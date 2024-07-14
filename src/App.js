@@ -10,8 +10,6 @@ import { Checkout } from './routes/checkout/check-out.component';
 
 import { checkUserSession } from './store/user/user.action';
 
-import { getCurrentUser } from './utils/firebase/firebase.utils';
-
 const App = () => {
   // use dispatch is a hook gotten from redux
   // the dispatch does not also change in useEffect. It stays the same but added to make lint error go away as react does not know
@@ -19,7 +17,6 @@ const App = () => {
 
   useEffect(() => {
     dispatch(checkUserSession());
-    // getCurrentUser().then((user) => console.log(user));
   }, [dispatch]);
 
   return (
