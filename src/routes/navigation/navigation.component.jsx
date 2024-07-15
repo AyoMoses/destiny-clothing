@@ -23,11 +23,11 @@ export const Navigation = () => {
   const currentUser = useSelector(selectCurrentUser);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!currentUser) {
-      navigate('/auth');
-    }
-  }, [currentUser, navigate]);
+  // useEffect(() => {
+  //   if (!currentUser) {
+  //     navigate('/auth');
+  //   }
+  // }, [currentUser, navigate]);
 
   const signOutUser = () => {
     dispatch(signOutStart());

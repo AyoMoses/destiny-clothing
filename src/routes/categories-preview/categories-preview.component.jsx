@@ -7,7 +7,7 @@ import {
 } from '../../store/categories/category.selector';
 
 import { renderSkeletons } from '../../utils/skeleton.utils';
-import { SkeletonContainer } from '../category/category.styles';
+import { SkeletonWrapper, SkeletonContainer } from './categories-preview.styles';
 
 export const CategoriesPreview = () => {
   const categoriesMap = useSelector(selectCategoriesMap);
@@ -16,9 +16,17 @@ export const CategoriesPreview = () => {
   return (
     <>
       {isLoading ? (
-        <SkeletonContainer>
-          {renderSkeletons(Object.keys(categoriesMap).length || 8)}
-        </SkeletonContainer>
+        <SkeletonWrapper>
+          <SkeletonContainer>
+            {renderSkeletons(Object.keys(categoriesMap).length || 4)}
+          </SkeletonContainer>
+          <SkeletonContainer>
+            {renderSkeletons(Object.keys(categoriesMap).length || 4)}
+          </SkeletonContainer>
+          <SkeletonContainer>
+            {renderSkeletons(Object.keys(categoriesMap).length || 4)}
+          </SkeletonContainer>
+        </SkeletonWrapper>
       ) : (
         Object.keys(categoriesMap).map((title) => {
           const products = categoriesMap[title];
