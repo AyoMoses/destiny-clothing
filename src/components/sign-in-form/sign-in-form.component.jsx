@@ -6,7 +6,6 @@ import {
 } from '../../store/user/user.action';
 import { FormInput } from '../form-input/form-input.component';
 import Button, { BUTTON_TYPE_CLASSES } from '../button/button.component';
-import { useNavigate, useLocation } from 'react-router-dom';
 import './sign-in-form.styles.scss';
 
 const defaultFormFields = {
@@ -18,17 +17,7 @@ export const SignInForm = () => {
   const dispatch = useDispatch();
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
-  const navigate = useNavigate();
-  const location = useLocation();
-  const currentUser = useSelector((state) => state.user.currentUser);
   const [justSignedIn, setJustSignedIn] = useState(false);
-
-  useEffect(() => {
-    if (currentUser && justSignedIn && location.pathname === '/auth') {
-      navigate('/');
-      setJustSignedIn(false);
-    }
-  }, [currentUser, navigate, justSignedIn]);
 
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
@@ -41,7 +30,7 @@ export const SignInForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     dispatch(emailSignInStart(email, password));
-    setJustSignedIn(true)
+    setJustSignedIn(true);
     resetFormFields();
   };
 
@@ -73,7 +62,9 @@ export const SignInForm = () => {
           value={password}
         />
         <div className="buttons-container">
-          <Button type="submit">sign in</Button>
+          <Button type="submit" isLoading={justSignedIn}>
+            sign in
+          </Button>
           <Button
             type="button"
             onClick={signInWithGoogle}
