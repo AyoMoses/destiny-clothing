@@ -1,7 +1,6 @@
 import { CART_ACTION_TYPES } from './cart.types';
 import { createAction } from '../../utils/reducer/reducer.utils';
 
-
 const clearCartItem = (cartItems, cartItemToClear) =>
   cartItems.filter((cartItem) => cartItem.id !== cartItemToClear.id);
 
@@ -24,6 +23,11 @@ export const removeItemToCart = (cartItems, cartItemToRemove) => {
 export const clearItemFromCart = (cartItems, cartItemToClear) => {
   const newCartItems = clearCartItem(cartItems, cartItemToClear);
   return createAction(CART_ACTION_TYPES.SET_CART_ITEMS, newCartItems);
+};
+
+// CLEAR CART ON NAV
+export const clearCart = () => {
+  return createAction(CART_ACTION_TYPES.SET_CLEAR_CART);
 };
 
 // create a helper function that adds an item to cart using the id of the product. If the id exists, it increments the current one. If not, it adds a new item

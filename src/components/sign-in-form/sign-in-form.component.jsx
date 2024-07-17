@@ -6,7 +6,7 @@ import {
 } from '../../store/user/user.action';
 import { FormInput } from '../form-input/form-input.component';
 import Button, { BUTTON_TYPE_CLASSES } from '../button/button.component';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './sign-in-form.styles.scss';
 
 const defaultFormFields = {
@@ -19,13 +19,16 @@ export const SignInForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
   const navigate = useNavigate();
+  const location = useLocation();
   const currentUser = useSelector((state) => state.user.currentUser);
+  const [justSignedIn, setJustSignedIn] = useState(false);
 
   useEffect(() => {
-    if (currentUser) {
+    if (currentUser && justSignedIn && location.pathname === '/auth') {
       navigate('/');
+      setJustSignedIn(false);
     }
-  }, [currentUser, navigate]);
+  }, [currentUser, navigate, justSignedIn]);
 
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
@@ -38,6 +41,7 @@ export const SignInForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     dispatch(emailSignInStart(email, password));
+    setJustSignedIn(true)
     resetFormFields();
   };
 

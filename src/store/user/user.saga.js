@@ -19,6 +19,7 @@ import {
 } from '../../utils/firebase/firebase.utils';
 import { getDoc } from 'firebase/firestore';
 import { updateProfile } from 'firebase/auth';
+import { clearCart } from '../cart/cart.action';
 
 export function* getSnapshotFromUserAuth(userAuth, additionalDetails) {
   try {
@@ -93,6 +94,7 @@ export function* signOut() {
   try {
     yield call(signOutUser);
     yield put(signOutSuccess());
+    yield put(clearCart());
   } catch (error) {
     yield put(signOutFailed(error));
   }

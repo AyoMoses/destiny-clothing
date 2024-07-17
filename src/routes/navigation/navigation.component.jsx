@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { ReactComponent as LogoIcon } from '../../assets/crown.svg';
@@ -22,12 +22,13 @@ export const Navigation = () => {
   const dispatch = useDispatch();
   const currentUser = useSelector(selectCurrentUser);
   const navigate = useNavigate();
+  const location = useLocation();
 
-  // useEffect(() => {
-  //   if (!currentUser) {
-  //     navigate('/auth');
-  //   }
-  // }, [currentUser, navigate]);
+  useEffect(() => {
+    if (!currentUser && location.pathname !== '/auth') {
+      navigate('/auth');
+    }
+  }, [currentUser, navigate, location.pathname]);
 
   const signOutUser = () => {
     dispatch(signOutStart());
