@@ -14,15 +14,22 @@ import { PersistGate } from 'redux-persist/integration/react';
 
 import './index.scss';
 
+import { theme } from './theme';
+import { ThemeProvider } from 'styled-components';
+import { GlobalStyle } from './utils/global-styles';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <BrowserRouter>
-          <Elements stripe={stripePromise}>
-            <App />
-          </Elements>
+          <ThemeProvider theme={theme}>
+            <GlobalStyle />
+            <Elements stripe={stripePromise}>
+              <App />
+            </Elements>
+          </ThemeProvider>
         </BrowserRouter>
       </PersistGate>
     </Provider>

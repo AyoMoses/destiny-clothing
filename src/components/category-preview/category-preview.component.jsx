@@ -2,19 +2,17 @@ import React from 'react';
 import {
   CategoryPreviewContainer,
   Title,
+  CategoryLink,
   PreviewGrid,
 } from './category-preview.styles.jsx';
 import { ProductCard } from '../product-card/product-card.component';
-import { Link } from 'react-router-dom';
 
 export const CategoryPreview = ({ title, products }) => {
   return (
     <CategoryPreviewContainer>
-      <Link to={title}>
-        <h2>
-          <Title>{title.toUpperCase()}</Title>
-        </h2>
-      </Link>
+      <CategoryLink to={title}>
+        <Title>{title.toUpperCase()}</Title>
+      </CategoryLink>
       <PreviewGrid>
         {products
           .filter((_, index) => index < 4)
