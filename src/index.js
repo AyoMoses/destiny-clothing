@@ -16,7 +16,6 @@ import './index.scss';
 
 import { theme } from './theme';
 import { ThemeProvider } from 'styled-components';
-import { GlobalStyle } from './utils/global-styles';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -25,7 +24,6 @@ root.render(
       <PersistGate loading={null} persistor={persistor}>
         <BrowserRouter>
           <ThemeProvider theme={theme}>
-            <GlobalStyle />
             <Elements stripe={stripePromise}>
               <App />
             </Elements>

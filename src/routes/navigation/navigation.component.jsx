@@ -16,6 +16,8 @@ import {
   NavigationContainer,
   NavLinks,
   NavLink,
+  Greetings,
+  GreetingsInner,
 } from './navigation.styles';
 
 export const Navigation = () => {
@@ -66,7 +68,12 @@ export const Navigation = () => {
           <LogoContainer to="/">
             <LogoIcon className="logo" />
           </LogoContainer>
-          {currentUser && <h3>{`${greeting}, ${showDisplayName}`}</h3>}
+          {currentUser && (
+            <Greetings>
+              {`${greeting}, `}
+              <GreetingsInner>{`${showDisplayName}`}</GreetingsInner>
+            </Greetings>
+          )}
         </LogoNameWrapper>
 
         <NavLinks>

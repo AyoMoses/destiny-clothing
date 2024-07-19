@@ -15,11 +15,15 @@ export const Title = styled.h2`
   margin-bottom: 25px;
   cursor: pointer;
   width: auto;
-  color: ${({ theme }) => theme.colors.fontCol};
+  color: #dc0073;
+  padding-left: 25px;
 `;
 
 export const PreviewGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   column-gap: 20px;
+  div:not(:last-child) {
+    margin-bottom: 70px;
+  }
 `;

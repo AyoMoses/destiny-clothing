@@ -1,0 +1,29 @@
+$mainCol: #23B5D3;
+$subCol: #DC0073;
+$offWhite: #FEFCFD;
+$fontCol: #140F2D;
+$font: 'Lato', sans-serif;
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: $font;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+  background-color: $offWhite;
+  color: $fontCol;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color: $subCol;
+}
+
+button {
+  font-family: $font;
+}

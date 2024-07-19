@@ -23,6 +23,14 @@ export const LogoNameWrapper = styled.div`
   gap: 5rem;
 `;
 
+export const Greetings = styled.span`
+  color: #140f2d;
+`;
+export const GreetingsInner = styled.span`
+  color: #23b5d3;
+  font-weight: 600;
+`;
+
 export const NavLinks = styled.div`
   height: 100%;
   display: flex;
