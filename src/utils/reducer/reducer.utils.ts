@@ -1,5 +1,31 @@
 import { AnyAction } from 'redux-saga';
 
+// this reachaes into our actionChannel, gets the type value and sets it into the type key
+type Matchable<AC extends () => AnyAction> = AC & {
+  type: ReturnType<AC>['type'];
+  match(action: AnyAction): action is ReturnType<AC>;
+};
+
+export function withMatcher<AC extends () => AnyAction & { type: string }>(
+  actionCreator: AC
+): Matchable<AC>;
+
+export function withMatcher<
+  AC extends (...args: any[]) => AnyAction & { type: string }
+>(actionCreator: AC): Matchable<AC>;
+
+// the matchmaker functions are to extract the type of action from the actionCreattor
+
+export function withMatcher(actionCreator: Function) {
+  const type = actionCreator().type;
+  return Object.assign(actionCreator, {
+    type,
+    match(action: AnyAction) {
+      return action.type === type;
+    },
+  });
+}
+
 export type ActionWithPayload<T, P> = {
   type: T;
   payload: P;
