@@ -108,6 +108,6 @@ export const clearItemFromCart = (
 };
 
 // CLEAR ALL CURRENT CART ITEMS ON NAV
-export const clearCart = withMatcher((): SetClearCartItems => {
+export const setClearCart = withMatcher((): SetClearCartItems => {
   return createAction(CART_ACTION_TYPES.SET_CLEAR_CART);
 });

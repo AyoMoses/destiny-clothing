@@ -22,7 +22,7 @@ export const CATEGORIES_INITIAL_STATE: CategoriesState = {
 // we update the categories map with our payload which becomes in the state
 export const categoriesReducer = (
   state = CATEGORIES_INITIAL_STATE,
-  action = {} as AnyAction
+  action: AnyAction
   // discriminitory union. If its not categoryAction do not accept and throw and Error
 ): CategoriesState => {
   if (fetchCategoriesStart.match(action)) {

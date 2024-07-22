@@ -1,9 +1,12 @@
-// pull the data from firebase utils and structure it better in our selector file
-
-import { createSelector } from 'reselect';
 // MEMOIZATION TO AVOID RE-RERENDERING
+import { createSelector } from 'reselect';
+
+import { CategoriesState } from './category.reducer';
+
+import { CategoryMap } from './category.types';
+
 // slice the categories from the redux categories state
-const selectCategoryReducer = (state) => state.categories;
+const selectCategoryReducer = (state): CategoriesState => state.categories;
 
 // THE first is the input and second is what to output
 // pass it into the createSelector so it knows what you have sliced and check if it needs to update
@@ -14,12 +17,12 @@ export const selectCategories = createSelector(
 
 export const selectCategoriesMap = createSelector(
   [selectCategories],
-  (categories) => {
+  (categories): CategoryMap => {
     return categories.reduce((acc, category) => {
       const { title, items } = category;
       acc[title.toLowerCase()] = items;
       return acc;
-    }, {});
+    }, {} as CategoryMap);
   }
 );
 
