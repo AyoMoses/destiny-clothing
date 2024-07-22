@@ -11,6 +11,8 @@ import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   getRedirectResult,
+  User,
+  NextOrObserver,
 } from 'firebase/auth';
 // we get firestore and the access to get doc from the document instance, then getDoc and setDoc do not mean what the method names are but getting and setting data from/to firestore. You get Doc with `doc` and set and get data on the doc with getDoc and setDoc. `doc` is a function that takes 3 arguements
 import {
@@ -22,7 +24,10 @@ import {
   writeBatch,
   query,
   getDocs,
+  QueryDocumentSnapshot,
 } from 'firebase/firestore';
+
+import { Category } from '../../store/categories/category.types';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -59,11 +64,15 @@ export const getRedirectResultFromGoogle = () => getRedirectResult(auth);
 // we instantiate firestore and use it to access our DB. This simple instance allows us to tell firestore when we want to set or get data to/from our db
 export const db = getFirestore();
 
+export type ObjectToAdd = {
+  title: string;
+};
+
 // PUSHING DATA TO FIRESTORE MANUALLY
-export const AddCollectionAndDocuments = async (
-  collectionKey,
-  objectsToAdd
-) => {
+export const AddCollectionAndDocuments = async <T extends ObjectToAdd>(
+  collectionKey: string,
+  objectsToAdd: T[]
+): Promise<void> => {
   const collectionRef = collection(db, collectionKey);
   const batch = writeBatch(db);
 
@@ -76,14 +85,16 @@ export const AddCollectionAndDocuments = async (
 };
 
 // GET THE DATA FROM FIRESTORE
-export const getCatgoriesAndDocuments = async () => {
+export const getCatgoriesAndDocuments = async (): Promise<Category[]> => {
   const collectionRef = collection(db, 'categories');
 
   const q = query(collectionRef);
 
   const querySnapShot = await getDocs(q);
 
-  return querySnapShot.docs.map((docSnapshot) => docSnapshot.data());
+  return querySnapShot.docs.map(
+    (docSnapshot) => docSnapshot.data() as Category
+  );
 
   // const categoryMap = querySnapShot.docs.reduce((acc, docSnapshot) => {
   //   const { title, items } = docSnapshot.data();
@@ -92,11 +103,22 @@ export const getCatgoriesAndDocuments = async () => {
   // }, {});
 };
 
+// information we add. If we need to add more, I do that here
+export type AdditionalInformation = {
+  displayName?: string;
+};
+
+export type UserData = {
+  createdAt: Date;
+  displayName: string;
+  email: string;
+};
+
 // an async function that takes our authenticated user and sends it to be stored on firestore
 export const createUserDocumentFromAuth = async (
-  userAuth,
-  additionalInformation = {}
-) => {
+  userAuth: User,
+  additionalInformation = {} as AdditionalInformation
+): Promise<void | QueryDocumentSnapshot<UserData>> => {
   if (!userAuth) return;
 
   const userDocRef = doc(db, 'users', userAuth.uid);
@@ -114,16 +136,19 @@ export const createUserDocumentFromAuth = async (
         ...additionalInformation,
       });
     } catch (err) {
-      console.log(err.message, 'There was an error creating the user');
+      console.log('There was an error creating the user', err);
     }
   }
 
-  return userDocRef;
+  return userSnapshot as QueryDocumentSnapshot<UserData>;
 };
 
 // we are focusing on how to defend our code from security breaches
 // I create an authenticated user inside of our firebase authentication
-export const createAuthUserWithEmailAndPassword = async (email, password) => {
+export const createAuthUserWithEmailAndPassword = async (
+  email: string,
+  password: string
+) => {
   // if there are no email or password, exit immediately
   if (!email || !password) return;
 
@@ -132,7 +157,10 @@ export const createAuthUserWithEmailAndPassword = async (email, password) => {
   return await createUserWithEmailAndPassword(auth, email, password);
 };
 
-export const signInAuthUserWithEmailAndPassword = async (email, password) => {
+export const signInAuthUserWithEmailAndPassword = async (
+  email: string,
+  password: string
+) => {
   if (!email || !password) return;
 
   return await signInWithEmailAndPassword(auth, email, password);
@@ -146,10 +174,10 @@ export const signOutUser = async () => await signOut(auth);
 // onAuthStateChanged observes for when user signs in and out. Auth changes and runs a callback
 // is an open listener which means its waiting to know whether auth states are changing
 // NOTE: You always have to tell the component using it to stop observing when it unmounts else it causes a memory leak
-export const onAuthStateChangedListener = (callback) =>
+export const onAuthStateChangedListener = (callback: NextOrObserver<User>) =>
   onAuthStateChanged(auth, callback);
 
-export const getCurrentUser = () => {
+export const getCurrentUser = (): Promise<User | null> => {
   // pass the resolve and reject callbacks to the Promise
   return new Promise((resolve, reject) => {
     const unsubscribe = onAuthStateChanged(
