@@ -5,8 +5,8 @@ import { setCartItems, setIsCartOpen, setClearCart } from './cart.action';
 import { CartItem } from './cart.types';
 
 export type CartState = {
-  isCartOpen: boolean;
-  cartItems: CartItem[];
+  readonly isCartOpen: boolean;
+  readonly cartItems: CartItem[];
 };
 
 // what to keep track of in my state with value to return and value to update
