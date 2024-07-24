@@ -2,6 +2,7 @@ import {
   compose,
   applyMiddleware,
   legacy_createStore as createStore,
+  Middleware,
 } from 'redux';
 
 // import { thunk } from 'redux-thunk';
@@ -13,18 +14,28 @@ import { rootReducer } from './root-reducer';
 
 // import { logger } from 'redux-logger';
 
-
 // local storage
-import { persistStore, persistReducer } from 'redux-persist';
+import { persistStore, persistReducer, PersistConfig } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
+export type RootState = ReturnType<typeof rootReducer>;
+
+declare global {
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+  }
+}
+
+type ExtendedPersistConfig = PersistConfig<RootState> & {
+  whitelist: (keyof RootState)[];
+};
 
 // PERSIST STORAGE ON LOCAL STORAGE WITH REDUX PERSIST
-const persistConfig = {
+const persistConfig: ExtendedPersistConfig = {
   key: 'root',
   storage: storage, //shorthand is storage
   // blacklist: ['user'], // from the root reducer, we blacklist user from being stored
-  whitelist: ['cart', 'user'],  // only persist cart alone
+  whitelist: ['cart', 'user'], // persist these
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -38,7 +49,7 @@ const sagaMiddleware = createSagaMiddleware();
 const middleWares = [
   process.env.NODE_ENV !== 'production' && loggerMiddleware,
   sagaMiddleware,
-].filter(Boolean); // filter out if its not true
+].filter((middleware): middleware is Middleware => Boolean(middleware)); // filter out if its not true
 
 // REACT DEVTOOL SETUP
 // if redux devtool fails then we use the regular compose

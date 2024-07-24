@@ -7,7 +7,6 @@ import {
   signOutFailed,
 } from './user.action';
 
-import { USER_ACTION_TYPES } from './user.types';
 import { UserData } from '../../utils/firebase/firebase.utils';
 
 export type UserState = {
