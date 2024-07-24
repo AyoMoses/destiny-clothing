@@ -1,4 +1,4 @@
-import { AnyAction } from 'redux-saga';
+import { Action } from 'redux';
 import {
   signInSuccess,
   signOutSuccess,
@@ -6,7 +6,6 @@ import {
   signUpFailed,
   signOutFailed,
 } from './user.action';
-
 import { UserData } from '../../utils/firebase/firebase.utils';
 
 export type UserState = {
@@ -21,7 +20,10 @@ const INITIAL_STATE: UserState = {
   error: null,
 };
 
-export const userReducer = (state = INITIAL_STATE, action: AnyAction) => {
+export const userReducer = (
+  state = INITIAL_STATE,
+  action: Action
+): UserState => {
   if (signInSuccess.match(action)) {
     return {
       ...state,
@@ -29,15 +31,11 @@ export const userReducer = (state = INITIAL_STATE, action: AnyAction) => {
     };
   }
 
-  if (signInSuccess.match(action)) {
+  if (signOutSuccess.match(action)) {
     return {
       ...state,
       currentUser: null,
     };
-  }
-
-  if (signOutSuccess.match(action)) {
-    return { ...state, currentUser: action.type };
   }
 
   if (
@@ -47,4 +45,6 @@ export const userReducer = (state = INITIAL_STATE, action: AnyAction) => {
   ) {
     return { ...state, error: action.payload };
   }
+
+  return state; // Add this line to return the state by default
 };

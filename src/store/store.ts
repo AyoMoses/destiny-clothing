@@ -4,17 +4,11 @@ import {
   legacy_createStore as createStore,
   Middleware,
 } from 'redux';
-
-// import { thunk } from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
-import { loggerMiddleware } from './middleware/logger';
-
+// import { loggerMiddleware } from './middleware/logger';
+import logger from 'redux-logger';
 import { rootSaga } from './root-saga';
 import { rootReducer } from './root-reducer';
-
-// import { logger } from 'redux-logger';
-
-// local storage
 import { persistStore, persistReducer, PersistConfig } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
@@ -30,29 +24,21 @@ type ExtendedPersistConfig = PersistConfig<RootState> & {
   whitelist: (keyof RootState)[];
 };
 
-// PERSIST STORAGE ON LOCAL STORAGE WITH REDUX PERSIST
 const persistConfig: ExtendedPersistConfig = {
   key: 'root',
-  storage: storage, //shorthand is storage
-  // blacklist: ['user'], // from the root reducer, we blacklist user from being stored
-  whitelist: ['cart', 'user'], // persist these
+  storage,
+  whitelist: ['cart', 'user'],
 };
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+const persistedReducer = persistReducer<RootState>(persistConfig, rootReducer);
 
 const sagaMiddleware = createSagaMiddleware();
 
-// middlesWares catch action before the hit the store and log them
-// can replace with the actual logger from redux instead of my customer logger ch updates the DOM events better
-// apply middleware only in development and filter it out if its false
-// if we are not in production, apply logger
 const middleWares = [
-  process.env.NODE_ENV !== 'production' && loggerMiddleware,
+  process.env.NODE_ENV !== 'production' && logger,
   sagaMiddleware,
-].filter((middleware): middleware is Middleware => Boolean(middleware)); // filter out if its not true
+].filter((middleware): middleware is Middleware => Boolean(middleware));
 
-// REACT DEVTOOL SETUP
-// if redux devtool fails then we use the regular compose
 const composeEnhancer =
   (process.env.NODE_ENV !== 'production' &&
     window &&
@@ -60,9 +46,6 @@ const composeEnhancer =
   compose;
 const composedEnhancers = composeEnhancer(applyMiddleware(...middleWares));
 
-// every store needs a root reducer in order to work
-// undefined is the second param to make it easier to test as a default state. It is also optional
-// export const store = createStore(rootReducer, undefined, composedEnhancers);
 export const store = createStore(
   persistedReducer,
   undefined,

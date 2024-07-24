@@ -1,7 +1,5 @@
-import { AnyAction } from 'redux-saga';
-
+import { Action } from 'redux-saga';
 import { setCartItems, setIsCartOpen, setClearCart } from './cart.action';
-
 import { CartItem } from './cart.types';
 
 export type CartState = {
@@ -9,7 +7,6 @@ export type CartState = {
   readonly cartItems: CartItem[];
 };
 
-// what to keep track of in my state with value to return and value to update
 export const CART_INITIAL_STATE: CartState = {
   isCartOpen: false,
   cartItems: [],
@@ -17,7 +14,7 @@ export const CART_INITIAL_STATE: CartState = {
 
 export const cartReducer = (
   state = CART_INITIAL_STATE,
-  action: AnyAction
+  action: Action
 ): CartState => {
   if (setIsCartOpen.match(action)) {
     return {
@@ -33,32 +30,12 @@ export const cartReducer = (
     };
   }
 
-  // if (setClearCart.match(action)) {
-  //   return {
-  //     ...state,
-  //     cartItems: action.type
-  //   };
-  // }
+  if (setClearCart.match(action)) {
+    return {
+      ...state,
+      cartItems: [],
+    };
+  }
 
   return state;
-
-  // switch (type) {
-  //   case CART_ACTION_TYPES.SET_CART_ITEMS:
-  //     return {
-  //       ...state,
-  //       cartItems: payload,
-  //     };
-  //   case CART_ACTION_TYPES.SET_CLEAR_CART:
-  //     return {
-  //       ...state,
-  //       cartItems: payload,
-  //     };
-  //   case CART_ACTION_TYPES.SET_IS_CART_OPEN:
-  //     return {
-  //       ...state,
-  //       isCartOpen: payload,
-  //     };
-  //   default:
-  //     return state;
-  // }
 };

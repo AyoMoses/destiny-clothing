@@ -14,8 +14,6 @@ export function withMatcher<
   AC extends (...args: any[]) => AnyAction & { type: string }
 >(actionCreator: AC): Matchable<AC>;
 
-// the matchmaker functions are to extract the type of action from the actionCreattor
-
 export function withMatcher(actionCreator: Function) {
   const type = actionCreator().type;
   return Object.assign(actionCreator, {

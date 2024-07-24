@@ -8,7 +8,7 @@ import {
   ItemLink,
 } from './directory-item.styles.jsx';
 import { useSelector } from 'react-redux';
-import { selectCurrentUser } from '../../store/user/user.selector.js';
+import { selectCurrentUser } from '../../store/user/user.selector';
 
 export const DirectoryItem = ({ category }) => {
   const { imageUrl, title, route } = category;

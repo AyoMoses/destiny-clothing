@@ -7,16 +7,15 @@ import {
   ActionWithPayload,
 } from '../../utils/reducer/reducer.utils';
 
-// create a helper function that adds an item to cart using the id of the product. If the id exists, it increments the current one. If not, it adds a new item
+// Helper function to add an item to the cart
 const addCartItem = (
   cartItems: CartItem[],
   productToAdd: CategoryItem
 ): CartItem[] => {
-  // find if cart items contains product to add
   const existingCartItem = cartItems.find(
     (cartItem) => cartItem.id === productToAdd.id
   );
-  // if found, increment quantity
+
   if (existingCartItem) {
     return cartItems.map((cartItem) =>
       cartItem.id === productToAdd.id
@@ -25,26 +24,22 @@ const addCartItem = (
     );
   }
 
-  // return new array with modified new items/new cart items
   return [...cartItems, { ...productToAdd, quantity: 1 }];
 };
 
+// Helper function to remove an item from the cart
 const removeCartItem = (
   cartItems: CartItem[],
   cartItemToRemove: CartItem
 ): CartItem[] => {
-  // find cart items to remove
   const existingCartItem = cartItems.find(
     (cartItem) => cartItem.id === cartItemToRemove.id
   );
 
-  // check if quantity is equal to 1, if it is, remove the item from cart
-  // if cart item id and cart item to remove id is not equal REMOVE
   if (existingCartItem && existingCartItem.quantity === 1) {
     return cartItems.filter((cartItem) => cartItem.id !== cartItemToRemove.id);
   }
 
-  // if it isn't return cartitems with matching cart item with reduced quantity
   return cartItems.map((cartItem) =>
     cartItem.id === cartItemToRemove.id
       ? { ...cartItem, quantity: cartItem.quantity - 1 }
@@ -52,12 +47,14 @@ const removeCartItem = (
   );
 };
 
+// Helper function to clear an item from the cart
 const clearCartItem = (
   cartItems: CartItem[],
   cartItemToClear: CartItem
 ): CartItem[] =>
   cartItems.filter((cartItem) => cartItem.id !== cartItemToClear.id);
 
+// Action types
 export type SetIsCartOpen = ActionWithPayload<
   CART_ACTION_TYPES.SET_IS_CART_OPEN,
   boolean
@@ -70,6 +67,7 @@ export type SetCartItems = ActionWithPayload<
 
 export type SetClearCartItems = Action<CART_ACTION_TYPES.SET_CLEAR_CART>;
 
+// Action creators
 export const setIsCartOpen = withMatcher(
   (bool: boolean): SetIsCartOpen =>
     createAction(CART_ACTION_TYPES.SET_IS_CART_OPEN, bool)
@@ -80,7 +78,7 @@ export const setCartItems = withMatcher(
     createAction(CART_ACTION_TYPES.SET_CART_ITEMS, cartItems)
 );
 
-// add item to cart
+// Add item to cart
 export const addItemToCart = (
   cartItems: CartItem[],
   productToAdd: CategoryItem
@@ -89,7 +87,7 @@ export const addItemToCart = (
   return setCartItems(newCartItems);
 };
 
-// remove item from cart
+// Remove item from cart
 export const removeItemToCart = (
   cartItems: CartItem[],
   cartItemToRemove: CartItem
@@ -98,7 +96,7 @@ export const removeItemToCart = (
   return setCartItems(newCartItems);
 };
 
-// remove ALL item(s) from cart
+// Clear item from cart
 export const clearItemFromCart = (
   cartItems: CartItem[],
   cartItemToClear: CartItem
@@ -107,7 +105,7 @@ export const clearItemFromCart = (
   return setCartItems(newCartItems);
 };
 
-// CLEAR ALL CURRENT CART ITEMS ON NAV
+// Clear all items in cart
 export const setClearCart = withMatcher((): SetClearCartItems => {
   return createAction(CART_ACTION_TYPES.SET_CLEAR_CART);
 });

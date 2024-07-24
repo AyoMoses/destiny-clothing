@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   googleSignInStart,
@@ -7,6 +7,9 @@ import {
 import { FormInput } from '../form-input/form-input.component';
 import Button, { BUTTON_TYPE_CLASSES } from '../button/button.component';
 import './sign-in-form.styles.scss';
+import { useNavigate } from 'react-router-dom';
+import { selectCurrentUser } from '../../store/user/user.selector';
+import { useSelector } from 'react-redux';
 
 const defaultFormFields = {
   email: '',
@@ -18,6 +21,17 @@ export const SignInForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
   const [justSignedIn, setJustSignedIn] = useState(false);
+  const currentUser = useSelector(selectCurrentUser);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate('/');
+      console.log('i am the current:', currentUser);
+    } else {
+      navigate('/auth');
+    }
+  }, [currentUser]);
 
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
