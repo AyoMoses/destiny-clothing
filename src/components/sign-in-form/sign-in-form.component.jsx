@@ -11,6 +11,11 @@ import { useNavigate } from 'react-router-dom';
 import { selectCurrentUser } from '../../store/user/user.selector';
 import { useSelector } from 'react-redux';
 
+import {
+  createUserDocumentFromAuth,
+  getRedirectResultFromGoogle,
+} from '../../utils/firebase/firebase.utils';
+
 const defaultFormFields = {
   email: '',
   password: '',
@@ -23,6 +28,16 @@ export const SignInForm = () => {
   const [justSignedIn, setJustSignedIn] = useState(false);
   const currentUser = useSelector(selectCurrentUser);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    (async () => {
+      const result = await getRedirectResultFromGoogle();
+      if (result?.user) {
+        await createUserDocumentFromAuth(result.user);
+        navigate('/');
+      }
+    })();
+  }, [navigate]);
 
   useEffect(() => {
     if (currentUser) {
