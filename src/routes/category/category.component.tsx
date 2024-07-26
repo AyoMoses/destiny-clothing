@@ -13,9 +13,13 @@ import { renderSkeletons } from '../../utils/skeleton.utils';
 import { SkeletonContainer } from './category.styles';
 import { CategoryContainer, CategoryTitle } from './category.styles';
 
+type CategoryRouteParams = {
+  category: string;
+}
+
 export const Category = () => {
   // destructure and get the name used in shop component to get dynamic route
-  const { category } = useParams();
+  const { category } = useParams<keyof CategoryRouteParams>() as CategoryRouteParams;
   const categoriesMap = useSelector(selectCategoriesMap);
   const isLoading = useSelector(selectCategoriesIsLoading);
   const [products, setProducts] = useState(categoriesMap[category]);

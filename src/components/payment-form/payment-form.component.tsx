@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import { useState, FormEvent } from 'react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { StripeCardElement } from '@stripe/stripe-js';
 
 import { useSelector } from 'react-redux';
 
@@ -14,6 +15,10 @@ import {
   PaymentButton,
 } from './payment-form.styles';
 
+const ifValidCardElement = (
+  card: StripeCardElement | null
+): card is StripeCardElement => card !== null;
+
 export const PaymentForm = () => {
   const stripe = useStripe();
   const elements = useElements();
@@ -21,7 +26,7 @@ export const PaymentForm = () => {
   const currentUser = useSelector(selectCurrentUser);
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
 
-  const paymentHandler = async (e) => {
+  const paymentHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     // do not continue if the stripe hooks do not return. Hence, a guard clause.
@@ -37,16 +42,19 @@ export const PaymentForm = () => {
       body: JSON.stringify({ amount: amount * 100 }),
     }).then((res) => res.json());
 
-    console.log(response);
-
     // const clientSecret = response.paymentIntent.client_secret;
     const {
       paymentIntent: { client_secret },
     } = response;
 
+    const cardDetails = elements.getElement(CardElement);
+
+    // if not equal to a stripe elements, big man... return
+    if (!ifValidCardElement(cardDetails)) return;
+
     const paymentResult = await stripe.confirmCardPayment(client_secret, {
       payment_method: {
-        card: elements.getElement(CardElement),
+        card: cardDetails,
         billing_details: {
           name: currentUser ? currentUser.displayName : 'Guest',
         },

@@ -77,7 +77,7 @@ export const SignInForm = () => {
       <Header>Already have an account?</Header>
       <span>Sign in with your email or password</span>
 
-      <form onSubmit={(e) => handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <FormInput
           label="Email"
           type="email"

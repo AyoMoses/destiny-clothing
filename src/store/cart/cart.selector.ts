@@ -6,7 +6,7 @@ const selectCartReducer = (state: RootState): CartState => state.cart;
 
 export const selectCartItems = createSelector(
   [selectCartReducer],
-  (cart) => cart.cartItems
+  (cart) => cart.cartItems || []
 );
 
 export const selectIsCartOpen = createSelector(
