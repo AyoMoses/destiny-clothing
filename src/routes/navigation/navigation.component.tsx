@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -18,6 +18,7 @@ import {
   NavLink,
   Greetings,
   GreetingsInner,
+  SignOut,
 } from './navigation.styles';
 
 export const Navigation = () => {
@@ -79,9 +80,7 @@ export const Navigation = () => {
         <NavLinks>
           <NavLink to="/shop">shop</NavLink>
           {currentUser ? (
-            <NavLink as="span" onClick={signOutUser}>
-              sign out
-            </NavLink>
+            <SignOut onClick={signOutUser}>sign out</SignOut>
           ) : (
             <NavLink to="/auth">sign in</NavLink>
           )}

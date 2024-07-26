@@ -43,3 +43,9 @@ export const NavLink = styled(Link)`
   cursor: pointer;
   text-transform: uppercase;
 `;
+
+export const SignOut = styled.span`
+  padding: 10px 15px;
+  cursor: pointer;
+  text-transform: uppercase;
+`;

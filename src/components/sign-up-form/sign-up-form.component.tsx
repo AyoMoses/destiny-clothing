@@ -46,10 +46,6 @@ export const SignUpForm = () => {
         alert('Cannot create user. Email already in use');
       console.log(error, 'error creating your account');
     }
-
-    // 2. check if we have authenticated the user with email and password
-
-    // 3. then we create a userDoc() from what createAuthUserwithEmailandPassword() returns
   };
 
   // shorthand method of storing and setting the uniform object
