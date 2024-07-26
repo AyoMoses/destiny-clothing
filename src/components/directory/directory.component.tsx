@@ -1,6 +1,4 @@
-import React from 'react';
-
-import { DirectoryContainer } from './directory.styles.jsx';
+import { DirectoryContainer } from './directory.styles';
 
 import { DirectoryItem } from '../directory-item/directory-item.component';
 

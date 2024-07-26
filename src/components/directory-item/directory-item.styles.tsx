@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 
+type BackgroundImageProps = {
+  $imageUrl: string;
+};
+
 export const ItemLink = styled.div`
   flex: 1 1 auto;
   display: flex;
@@ -10,7 +14,7 @@ export const ItemLink = styled.div`
   margin: 0 7.5px 15px;
 `;
 
-export const BackgroundImage = styled.div`
+export const BackgroundImage = styled.div<BackgroundImageProps>`
   width: 100%;
   height: 100%;
   background-size: cover;

@@ -4,10 +4,25 @@ import {
   Title,
   CategoryLink,
   PreviewGrid,
-} from './category-preview.styles.jsx';
+} from './category-preview.styles';
 import { ProductCard } from '../product-card/product-card.component';
 
-export const CategoryPreview = ({ title, products }) => {
+type Product = {
+  id: number;
+  name: string;
+  price: number;
+  imageUrl: string;
+};
+
+type CategoryPreviewProps = {
+  title: string;
+  products: Product[];
+};
+
+export const CategoryPreview: React.FC<CategoryPreviewProps> = ({
+  title,
+  products,
+}) => {
   return (
     <CategoryPreviewContainer>
       <CategoryLink to={title}>

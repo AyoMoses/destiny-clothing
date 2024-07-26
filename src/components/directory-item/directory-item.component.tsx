@@ -6,11 +6,19 @@ import {
   Body,
   ItemTitle,
   ItemLink,
-} from './directory-item.styles.jsx';
+} from './directory-item.styles';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../store/user/user.selector';
 
-export const DirectoryItem = ({ category }) => {
+type DirectoryItemProps = {
+  category: {
+    imageUrl: string;
+    title: string;
+    route: string;
+  }
+}
+
+export const DirectoryItem:React.FC<DirectoryItemProps> = ({ category }) => {
   const { imageUrl, title, route } = category;
   const navigate = useNavigate();
   const currentUser = useSelector(selectCurrentUser);
