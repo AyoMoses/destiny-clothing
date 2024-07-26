@@ -1,14 +1,11 @@
-import React from 'react';
+import React, { FormEvent, ChangeEvent } from 'react';
 import { useDispatch } from 'react-redux';
-import {
-  createAuthUserWithEmailAndPassword,
-  createUserDocumentFromAuth,
-} from '../../utils/firebase/firebase.utils';
+import { AuthError, AuthErrorCodes } from 'firebase/auth';
 
 import { FormInput } from '../form-input/form-input.component';
 import Button, { BUTTON_TYPE_CLASSES } from '../button/button.component';
 
-import './sign-up-form.styles.scss';
+import { SignUpContainer } from './sign-up-form.styles';
 
 import { signUpStart } from '../../store/user/user.action';
 
@@ -29,7 +26,7 @@ export const SignUpForm = () => {
     setFormFields(defaultFormFields);
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     // when form is submitted
@@ -45,8 +42,8 @@ export const SignUpForm = () => {
       dispatch(signUpStart(email, password, displayName));
       resetFormFields();
     } catch (error) {
-      if (error.code === 'auth/email-already-in-use')
-        alert('user email already in use');
+      if ((error as AuthError).code === AuthErrorCodes.EMAIL_EXISTS)
+        alert('Cannot create user. Email already in use');
       console.log(error, 'error creating your account');
     }
 
@@ -56,7 +53,7 @@ export const SignUpForm = () => {
   };
 
   // shorthand method of storing and setting the uniform object
-  const handleChange = (event) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     // the name property and value of the event
     const { name, value } = event.target;
 
@@ -64,11 +61,11 @@ export const SignUpForm = () => {
   };
 
   return (
-    <div className="sign-up-container">
+    <SignUpContainer>
       <h2>Don't have an account?</h2>
       <span>Sign up with your email or password</span>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={() => handleSubmit}>
         <FormInput
           label="Display Name"
           type="text"
@@ -109,6 +106,6 @@ export const SignUpForm = () => {
           sign up
         </Button>
       </form>
-    </div>
+    </SignUpContainer>
   );
 };

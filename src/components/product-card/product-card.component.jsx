@@ -1,10 +1,8 @@
-import { React } from 'react';
-
 import { useSelector, useDispatch } from 'react-redux';
 import { addItemToCart } from '../../store/cart/cart.action';
 import { selectCartItems } from '../../store/cart/cart.selector';
 
-import { BUTTON_TYPE_CLASSES } from '../button/button.component.jsx';
+import { BUTTON_TYPE_CLASSES } from '../button/button.component';
 
 import {
   ProductCardContainer,

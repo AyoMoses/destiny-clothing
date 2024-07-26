@@ -1,10 +1,14 @@
 import styled, { css } from 'styled-components';
 import { theme } from '../../theme';
 
+type FormInputLableProps = {
+  $shrink?: boolean;
+};
+
 const shrinkLabel = css`
   top: -14px;
   font-size: 12px;
-  color: ${theme.mainColor};
+  color: ${theme.colors.mainCol};
 `;
 
 export const Group = styled.div`
@@ -15,14 +19,14 @@ export const Group = styled.div`
 export const InputForm = styled.input`
   background: none;
   background-color: white;
-  color: ${theme.subColor};
+  color: ${theme.colors.subCol};
   font-size: 18px;
   padding: 10px 10px 10px 5px;
   display: block;
   width: 100%;
   border: none;
   border-radius: 0;
-  border-bottom: 1px solid ${theme.subColor};
+  border-bottom: 1px solid ${theme.colors.subCol};
   margin: 25px 0;
 
   &:focus {
@@ -38,8 +42,8 @@ export const InputForm = styled.input`
   }
 `;
 
-export const FormInputLabel = styled.label`
-  color: ${theme.subColor};
+export const FormInputLabel = styled.label<FormInputLableProps>`
+  color: ${theme.colors.subCol};
   font-size: 16px;
   font-weight: normal;
   position: absolute;
