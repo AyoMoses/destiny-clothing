@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { Suspense, useEffect, lazy } from 'react';
 import { useDispatch } from 'react-redux';
 import { Routes, Route } from 'react-router-dom';
 
@@ -9,6 +9,8 @@ import { Shop } from './routes/shop/shop.component';
 import { Checkout } from './routes/checkout/check-out.component';
 
 import { checkUserSession } from './store/user/user.action';
+import { Spinner } from './components/spinner/spinner.component';
+import { GlobalStyle } from './global-styles';
 
 const App = () => {
   // use dispatch is a hook gotten from redux
@@ -20,17 +22,20 @@ const App = () => {
   }, [dispatch]);
 
   return (
-    <Routes>
-      <Route path="/" element={<Navigation />}>
-        {/*when path matches this url, render this element*/}
-        <Route index element={<Home />} />
+    <Suspense fallback={<Spinner />}>
+      <GlobalStyle />
+      <Routes>
+        <Route path="/" element={<Navigation />}>
+          {/*when path matches this url, render this element*/}
+          <Route index element={<Home />} />
 
-        {/*wild card to mean... match shop with any link that follows */}
-        <Route path="shop/*" element={<Shop />} />
-        <Route path="auth" element={<Authentication />} />
-        <Route path="checkout" element={<Checkout />} />
-      </Route>
-    </Routes>
+          {/*wild card to mean... match shop with any link that follows */}
+          <Route path="shop/*" element={<Shop />} />
+          <Route path="auth" element={<Authentication />} />
+          <Route path="checkout" element={<Checkout />} />
+        </Route>
+      </Routes>
+    </Suspense>
   );
 };
 

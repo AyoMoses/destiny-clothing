@@ -5,6 +5,10 @@ export const CategoryPreviewContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 30px;
+
+  @media screen and (max-width: 768px) {
+    align-items: center;
+  }
 `;
 
 export const CategoryLink = styled(Link)`
@@ -25,5 +29,17 @@ export const PreviewGrid = styled.div`
   column-gap: 20px;
   div:not(:last-child) {
     margin-bottom: 70px;
+    @media screen and (max-width: 768px) {
+      margin-bottom: 0;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 15px;
+    grid-row-gap: 55px;
+  }
+  @media screen and (max-width: 400px) {
+    grid-template-columns: 1fr;
   }
 `;

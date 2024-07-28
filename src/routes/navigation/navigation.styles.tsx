@@ -8,12 +8,23 @@ export const NavigationContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-bottom: 25px;
+
+  @media screen and (max-width: 768px) {
+    height: 60px;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+  }
 `;
 
 export const LogoContainer = styled(Link)`
   height: 100%;
   width: 70px;
   padding: 25px;
+
+  @media screen and (max-width: 768px) {
+    width: auto;
+    padding: 0;
+  }
 `;
 
 export const LogoNameWrapper = styled.div`
@@ -21,6 +32,10 @@ export const LogoNameWrapper = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 5rem;
+
+  @media screen and (max-width: 768px) {
+    gap: 1rem;
+  }
 `;
 
 export const Greetings = styled.span`
@@ -36,16 +51,28 @@ export const NavLinks = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
+
+  @media screen and (max-width: 768px) {
+    width: auto;
+  }
 `;
 
 export const NavLink = styled(Link)`
   padding: 10px 15px;
   cursor: pointer;
   text-transform: uppercase;
+  @media screen and (max-width: 768px) {
+    padding: 5px 10px;
+    font-size: 1rem;
+  }
 `;
 
 export const SignOut = styled.span`
   padding: 10px 15px;
   cursor: pointer;
   text-transform: uppercase;
+  @media screen and (max-width: 768px) {
+    padding: 5px 10px;
+    font-size: 1rem;
+  }
 `;

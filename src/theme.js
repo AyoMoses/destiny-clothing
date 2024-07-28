@@ -5,4 +5,5 @@ export const theme = {
     offWhite: '#FEFCFD',
     fontCol: '#140F2D',
   },
+  font: "'Lato', sans-serif"
 };
